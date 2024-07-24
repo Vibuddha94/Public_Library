@@ -13,7 +13,7 @@ public class Library extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        URL resource = getClass().getResource("/view/Login.fxml");
+        URL resource = getClass().getResource("/view/ManageUser.fxml");
         Parent root = FXMLLoader.load(resource);
         primaryStage.setScene(new Scene(root));
         primaryStage.setTitle("Public Library");
