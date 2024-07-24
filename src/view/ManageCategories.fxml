@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="850.0" prefWidth="1500.0" styleClass="root" stylesheets="@../cssStyle/Background.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label alignment="CENTER" layoutX="14.0" layoutY="14.0" prefHeight="45.0" prefWidth="238.0" text="Manage Categories" textFill="#721078" underline="true">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+      <TableView layoutX="566.0" layoutY="99.0" prefHeight="724.0" prefWidth="560.0" AnchorPane.bottomAnchor="27.0" AnchorPane.leftAnchor="566.0" AnchorPane.rightAnchor="374.0" AnchorPane.topAnchor="99.0">
+        <columns>
+          <TableColumn prefWidth="155.0" text="Category Code" />
+          <TableColumn prefWidth="333.0" text="Category" />
+        </columns>
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
+      </TableView>
+      <TextField editable="false" layoutX="50.0" layoutY="139.0" prefHeight="25.0" prefWidth="160.0" promptText="Category Code" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="99.0" />
+      <TextField layoutX="290.0" layoutY="139.0" prefHeight="25.0" prefWidth="160.0" promptText="Category" AnchorPane.leftAnchor="290.0" AnchorPane.topAnchor="99.0" />
+      <JFXButton buttonType="RAISED" layoutX="50.0" layoutY="135.0" prefHeight="25.0" prefWidth="100.0" style="-fx-border-radius: 10; -fx-border-color: #ecf0f1; -fx-background-radius: 10;" text="SAVE" textFill="#218026" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="145.0">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </JFXButton>
+      <JFXButton buttonType="RAISED" layoutX="202.0" layoutY="135.0" prefHeight="25.0" prefWidth="100.0" style="-fx-border-radius: 10; -fx-border-color: #ecf0f1; -fx-background-radius: 10;" text="UPDATE" textFill="#1245c6" AnchorPane.leftAnchor="200.0" AnchorPane.topAnchor="145.0">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </JFXButton>
+      <JFXButton buttonType="RAISED" layoutX="350.0" layoutY="135.0" prefHeight="25.0" prefWidth="100.0" style="-fx-border-radius: 10; -fx-border-color: #ecf0f1; -fx-background-radius: 10;" text="DELETE" textFill="#da0d0d" AnchorPane.leftAnchor="350.0" AnchorPane.topAnchor="145.0">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </JFXButton>
+      <JFXButton buttonType="RAISED" layoutX="1350.0" layoutY="43.0" prefHeight="25.0" prefWidth="100.0" style="-fx-border-radius: 10; -fx-border-color: #ecf0f1; -fx-background-radius: 10;" text="HOME" textFill="#b92c85" AnchorPane.rightAnchor="50.0">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </JFXButton>
+   </children>
+</AnchorPane>

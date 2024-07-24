@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="850.0" prefWidth="1500.0" styleClass="root" stylesheets="@../cssStyle/Background2.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label layoutX="1185.0" layoutY="20.0" prefHeight="25.0" prefWidth="200.0" text="Vibuddha Vidarshana">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
+      <JFXButton buttonType="RAISED" layoutX="1385.0" layoutY="20.0" prefHeight="25.0" prefWidth="70.0" style="-fx-background-radius: 10; -fx-border-color: #ecf0f1; -fx-border-radius: 10;" text="Logout" textFill="#009bff">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </JFXButton>
+      <Label layoutX="444.0" layoutY="252.0" text="Together, We Inspire Learning" textFill="#5c5cf5">
+         <font>
+            <Font name="Cambria Math" size="47.0" />
+         </font>
+      </Label>
+      <JFXComboBox fx:id="comboBox" layoutX="575.0" layoutY="586.0" prefHeight="27.0" prefWidth="350.0" promptText="----------------------------------Select--------------------------------" style="-fx-background-color: #ffffff;" />
+      <JFXButton buttonType="RAISED" layoutX="688.0" layoutY="642.0" prefHeight="40.0" prefWidth="125.0" style="-fx-border-color: #48708a; -fx-border-radius: 10; -fx-background-radius: 10;" text="OK" textFill="#48708a">
+         <font>
+            <Font name="System Bold" size="17.0" />
+         </font>
+      </JFXButton>
+   </children>
+</AnchorPane>
