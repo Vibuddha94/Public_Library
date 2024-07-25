@@ -83,7 +83,7 @@ public class LoginController {
             this.root.getChildren().add(node);
         } else {
             this.root.getChildren().clear();
-            Parent node = FXMLLoader.load(this.getClass().getResource("/view/UserView.fxml")); //------------LOAD IF THE USER IS A NORRMAL USER----------------
+            Parent node = FXMLLoader.load(this.getClass().getResource("/view/UserView.fxml")); //------------LOAD IF THE USER IS A NON-ADMIN USER----------------
             this.root.getChildren().add(node);
         }
     }

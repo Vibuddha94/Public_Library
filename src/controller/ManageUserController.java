@@ -22,6 +22,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import service.ServiceFactory;
 import service.ServiceFactory.ServiceType;
 import service.custom.UserService;
@@ -90,7 +91,10 @@ public class ManageUserController implements Initializable {
     @FXML
     private TextField txtUserId;
 
-    UserService userService = (UserService) ServiceFactory.getInstance().getService(ServiceType.USER);
+    @FXML
+    private AnchorPane root;
+
+    private UserService userService = (UserService) ServiceFactory.getInstance().getService(ServiceType.USER);
 
 
     //------------DELETE AN USER----------------
