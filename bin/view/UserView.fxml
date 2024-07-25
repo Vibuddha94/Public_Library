@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="850.0" prefWidth="1500.0" styleClass="root" stylesheets="@../cssStyle/Background2.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.UserViewController">
+<AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="850.0" prefWidth="1500.0" styleClass="root" stylesheets="@../cssStyle/Background.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.UserViewController">
    <children>
       <Label fx:id="lblName" alignment="CENTER_RIGHT" layoutX="1129.0" layoutY="19.0" prefHeight="26.0" prefWidth="235.0" text="Vibuddha Vidarshana" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="19.0">
          <font>
@@ -18,13 +18,13 @@
             <Font name="System Bold" size="13.0" />
          </font>
       </JFXButton>
-      <Label layoutX="444.0" layoutY="252.0" text="Together, We Inspire Learning" textFill="#5c5cf5">
+      <Label layoutX="444.0" layoutY="252.0" text="Together, We Inspire Learning" textFill="#5094f8" AnchorPane.topAnchor="270.0">
          <font>
             <Font name="Cambria Math" size="47.0" />
          </font>
       </Label>
-      <JFXComboBox fx:id="comboBox" layoutX="575.0" layoutY="586.0" prefHeight="27.0" prefWidth="350.0" promptText="----------------------------------Select--------------------------------" style="-fx-background-color: #ffffff;" />
-      <JFXButton fx:id="btnOk" buttonType="RAISED" layoutX="688.0" layoutY="642.0" onAction="#btnOkOnAction" prefHeight="40.0" prefWidth="125.0" style="-fx-border-color: #48708a; -fx-border-radius: 10; -fx-background-radius: 10;" text="OK" textFill="#48708a">
+      <JFXComboBox fx:id="comboBox" layoutX="575.0" layoutY="586.0" prefHeight="27.0" prefWidth="350.0" promptText="----------------------------------Select--------------------------------" style="-fx-background-color: #ffffff;" AnchorPane.leftAnchor="487.0" AnchorPane.topAnchor="495.0" />
+      <JFXButton fx:id="btnOk" buttonType="RAISED" layoutX="688.0" layoutY="642.0" onAction="#btnOkOnAction" prefHeight="40.0" prefWidth="125.0" style="-fx-border-color: #48708a; -fx-border-radius: 10; -fx-background-radius: 10;" text="OK" textFill="#48708a" AnchorPane.leftAnchor="888.0" AnchorPane.topAnchor="489.0">
          <font>
             <Font name="System Bold" size="17.0" />
          </font>

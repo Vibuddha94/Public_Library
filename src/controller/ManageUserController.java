@@ -1,5 +1,6 @@
 package controller;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -12,7 +13,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
@@ -96,8 +99,7 @@ public class ManageUserController implements Initializable {
 
     private UserService userService = (UserService) ServiceFactory.getInstance().getService(ServiceType.USER);
 
-
-    //------------DELETE AN USER----------------
+    // ------------DELETE AN USER----------------
     @FXML
     void btnDeleteOnAction(ActionEvent event) {
         try {
@@ -117,12 +119,13 @@ public class ManageUserController implements Initializable {
     }
 
     @FXML
-    void btnHomeOnAction(ActionEvent event) {
-
+    void btnHomeOnAction(ActionEvent event) throws IOException {
+        this.root.getChildren().clear();
+        Parent node = FXMLLoader.load(this.getClass().getResource("/view/AdminView.fxml"));
+        this.root.getChildren().add(node);
     }
 
-
-    //------------SAVE NEW USER----------------
+    // ------------SAVE NEW USER----------------
     @FXML
     void btnSaveOnAction(ActionEvent event) {
         try {
@@ -137,8 +140,7 @@ public class ManageUserController implements Initializable {
         }
     }
 
-
-    //------------UPDATE AN EXISTING USER----------------
+    // ------------UPDATE AN EXISTING USER----------------
     @FXML
     void btnUpdateOnAction(ActionEvent event) {
         try {
@@ -153,8 +155,7 @@ public class ManageUserController implements Initializable {
         }
     }
 
-
-    //------------LOAD THE DATA FROM CLICKED ROW----------------
+    // ------------LOAD THE DATA FROM CLICKED ROW----------------
     @FXML
     void tblUserOnMouseClicked(MouseEvent event) {
         UserDto dto = tblUser.getSelectionModel().getSelectedItem();
@@ -175,8 +176,7 @@ public class ManageUserController implements Initializable {
         loadTable();
     }
 
-
-    //------------IMPORT THE DATA TO THE TABLE FROM DATABASE----------------
+    // ------------IMPORT THE DATA TO THE TABLE FROM DATABASE----------------
     private void loadTable() {
         try {
             ArrayList<UserDto> userDtos = userService.getAll();
@@ -195,8 +195,7 @@ public class ManageUserController implements Initializable {
         }
     }
 
-
-    //------------SET VALUES TO THE TEXT FIELDS FROM A DTO----------------
+    // ------------SET VALUES TO THE TEXT FIELDS FROM A DTO----------------
     private void setValueFrom(UserDto dto) {
         txtUserId.setText(dto.getUserId());
         txtFirstName.setText(dto.getFirstName());
@@ -208,8 +207,7 @@ public class ManageUserController implements Initializable {
         cbIsAdmin.setSelected(dto.getIsAdmin());
     }
 
-
-    //------------SET VALUES TO A DTO FROM TEXT FIELDS----------------
+    // ------------SET VALUES TO A DTO FROM TEXT FIELDS----------------
     private void setValueTo(UserDto dto) {
         dto.setUserId(txtUserId.getText());
         dto.setFirstName(txtFirstName.getText());
@@ -221,8 +219,7 @@ public class ManageUserController implements Initializable {
         dto.setIsAdmin(cbIsAdmin.isSelected());
     }
 
-
-    //------------SHOW POP-UP DIALOGS----------------
+    // ------------SHOW POP-UP DIALOGS----------------
     private void showDialog(String title, String content) {
         Dialog<String> dialog = new Dialog<>();
         dialog.setTitle(title);
@@ -232,8 +229,7 @@ public class ManageUserController implements Initializable {
         dialog.showAndWait();
     }
 
-
-    //------------CLEAR THE FORM----------------
+    // ------------CLEAR THE FORM----------------
     private void clear() {
         txtUserId.clear();
         txtFirstName.clear();
@@ -246,8 +242,7 @@ public class ManageUserController implements Initializable {
         ;
     }
 
-
-    //------------LOAD THE NEXT USER ID AUTOMATICALLY----------------
+    // ------------LOAD THE NEXT USER ID AUTOMATICALLY----------------
     private void loadUserId(String id) {
         if (id.equals("ADMIN")) {
             txtUserId.setText("PLU001");
