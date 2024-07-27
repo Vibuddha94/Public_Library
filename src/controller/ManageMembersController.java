@@ -1,20 +1,27 @@
 package controller;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXButton;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import security.LoginSecurity;
+import tableModel.MembersTM;
 
-public class ManageMembersController {
+public class ManageMembersController implements Initializable {
     @FXML
     private JFXButton bbtnHome;
 
@@ -31,28 +38,28 @@ public class ManageMembersController {
     private JFXButton btnUpdate;
 
     @FXML
-    private TableColumn<?, ?> colAddress;
+    private TableColumn<MembersTM, String> colAddress;
 
     @FXML
-    private TableColumn<?, ?> colContactNumber;
+    private TableColumn<MembersTM, String> colContactNumber;
 
     @FXML
-    private TableColumn<?, ?> colDob;
+    private TableColumn<MembersTM, String> colDob;
 
     @FXML
-    private TableColumn<?, ?> colFirstName;
+    private TableColumn<MembersTM, String> colFirstName;
 
     @FXML
-    private TableColumn<?, ?> colLastName;
+    private TableColumn<MembersTM, String> colLastName;
 
     @FXML
-    private TableColumn<?, ?> colMemberId;
+    private TableColumn<MembersTM, String> colMemberId;
 
     @FXML
     private AnchorPane root;
 
     @FXML
-    private TableView<?> tblMembet;
+    private TableView<MembersTM> tblMembet;
 
     @FXML
     private TextField txtAddress;
@@ -110,5 +117,26 @@ public class ManageMembersController {
             Parent node = FXMLLoader.load(this.getClass().getResource("/view/UserView.fxml")); //------------LOAD IF THE USER IS A NON-ADMIN USER----------------
             this.root.getChildren().add(node);
         }
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        colMemberId.setCellValueFactory(new PropertyValueFactory<>("memberId"));
+        colFirstName.setCellValueFactory(new PropertyValueFactory<>("firstName"));
+        colLastName.setCellValueFactory(new PropertyValueFactory<>("lastName"));
+        colDob.setCellValueFactory(new PropertyValueFactory<>("dob"));
+        colAddress.setCellValueFactory(new PropertyValueFactory<>("address"));
+        colContactNumber.setCellValueFactory(new PropertyValueFactory<>("contNumber"));
+
+        loadTable();
+    }
+
+    private void loadTable() {
+        ObservableList<MembersTM> observableList = FXCollections.observableArrayList();
+        MembersTM tm = new MembersTM("000", "aaa", "bbb", "1994-02-20", "matara", "0112356989");
+
+        observableList.add(tm);
+
+        tblMembet.setItems(observableList);
     }
 }

@@ -68,17 +68,17 @@
             <Font name="System Bold" size="16.0" />
          </font>
       </Label>
-      <JFXCheckBox fx:id="cbGood" checkedColor="#f39c12" layoutX="750.0" layoutY="174.0" prefHeight="25.0" prefWidth="150.0" style="-fx-border-radius: 5; -fx-border-color: #ffffff; -fx-background-color: #4cd13776;" text="     GOOD" textFill="#61559e" unCheckedColor="#fffefe" AnchorPane.topAnchor="175.0">
+      <JFXCheckBox fx:id="cbGood" checkedColor="#f39c12" layoutX="750.0" layoutY="174.0" prefHeight="25.0" prefWidth="150.0" style="-fx-border-radius: 5; -fx-border-color: #ffffff; -fx-background-color: #4cd13776;" text="     GOOD" textFill="#7906bc" unCheckedColor="#fffefe" AnchorPane.topAnchor="175.0">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>
       </JFXCheckBox>
-      <JFXCheckBox fx:id="cbDamaged" checkedColor="#f39c12" layoutX="750.0" layoutY="211.0" prefHeight="25.0" prefWidth="150.0" style="-fx-border-color: #ffffff; -fx-border-radius: 5; -fx-background-color: #4cd13776;" text="     DAMAGED" textFill="#6555a4" unCheckedColor="WHITE" AnchorPane.topAnchor="215.0">
+      <JFXCheckBox fx:id="cbDamaged" checkedColor="#f39c12" layoutX="750.0" layoutY="211.0" prefHeight="25.0" prefWidth="150.0" style="-fx-border-color: #ffffff; -fx-border-radius: 5; -fx-background-color: #4cd13776;" text="     DAMAGED" textFill="#7906bc" unCheckedColor="WHITE" AnchorPane.topAnchor="215.0">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>
       </JFXCheckBox>
-      <JFXCheckBox fx:id="cbLost" checkedColor="#f39c12" layoutX="750.0" layoutY="255.0" prefHeight="25.0" prefWidth="150.0" style="-fx-border-color: #ffffff; -fx-border-radius: 5; -fx-background-color: #4cd13776;" text="     LOST" textFill="#6555a4" unCheckedColor="#fffefe" AnchorPane.topAnchor="255.0">
+      <JFXCheckBox fx:id="cbLost" checkedColor="#f39c12" layoutX="750.0" layoutY="255.0" prefHeight="25.0" prefWidth="150.0" style="-fx-border-color: #ffffff; -fx-border-radius: 5; -fx-background-color: #4cd13776;" text="     LOST" textFill="#7906bc" unCheckedColor="#fffefe" AnchorPane.topAnchor="255.0">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>

@@ -29,6 +29,7 @@ import javafx.scene.layout.AnchorPane;
 import service.ServiceFactory;
 import service.ServiceFactory.ServiceType;
 import service.custom.UserService;
+import tableModel.UserTM;
 
 public class ManageUserController implements Initializable {
     @FXML
@@ -47,31 +48,31 @@ public class ManageUserController implements Initializable {
     private JFXCheckBox cbIsAdmin;
 
     @FXML
-    private TableColumn<UserDto, String> colAddress;
+    private TableColumn<UserTM, String> colAddress;
 
     @FXML
-    private TableColumn<UserDto, String> colContactNumber;
+    private TableColumn<UserTM, String> colContactNumber;
 
     @FXML
-    private TableColumn<UserDto, String> colDob;
+    private TableColumn<UserTM, String> colDob;
 
     @FXML
-    private TableColumn<UserDto, String> colFirstName;
+    private TableColumn<UserTM, String> colFirstName;
 
     @FXML
-    private TableColumn<UserDto, String> colLastName;
+    private TableColumn<UserTM, String> colLastName;
 
     @FXML
-    private TableColumn<UserDto, String> colPassword;
+    private TableColumn<UserTM, String> colPassword;
 
     @FXML
-    private TableColumn<UserDto, String> colUserId;
+    private TableColumn<UserTM, String> colUserId;
 
     @FXML
-    private TableColumn<UserDto, Boolean> colIsAdmin;
+    private TableColumn<UserTM, Boolean> colIsAdmin;
 
     @FXML
-    private TableView<UserDto> tblUser;
+    private TableView<UserTM> tblUser;
 
     @FXML
     private TextField txtAddress;
@@ -158,7 +159,7 @@ public class ManageUserController implements Initializable {
     // ------------LOAD THE DATA FROM CLICKED ROW----------------
     @FXML
     void tblUserOnMouseClicked(MouseEvent event) {
-        UserDto dto = tblUser.getSelectionModel().getSelectedItem();
+        UserTM dto = tblUser.getSelectionModel().getSelectedItem();
         setValueFrom(dto);
     }
 
@@ -180,10 +181,13 @@ public class ManageUserController implements Initializable {
     private void loadTable() {
         try {
             ArrayList<UserDto> userDtos = userService.getAll();
-            ObservableList<UserDto> observableList = FXCollections.observableArrayList();
+            ObservableList<UserTM> observableList = FXCollections.observableArrayList();
 
             for (UserDto userDto : userDtos) {
-                observableList.add(userDto);
+                UserTM tm = new UserTM(userDto.getUserId(), userDto.getFirstName(), userDto.getLastName(),
+                        userDto.getDob(), userDto.getAddress(), userDto.getContactNumber(), userDto.getPassword(),
+                        userDto.getIsAdmin());
+                observableList.add(tm);
             }
 
             loadUserId(userDtos.get(userDtos.size() - 1).getUserId());
@@ -196,7 +200,7 @@ public class ManageUserController implements Initializable {
     }
 
     // ------------SET VALUES TO THE TEXT FIELDS FROM A DTO----------------
-    private void setValueFrom(UserDto dto) {
+    private void setValueFrom(UserTM dto) {
         txtUserId.setText(dto.getUserId());
         txtFirstName.setText(dto.getFirstName());
         txtLastName.setText(dto.getLastName());
@@ -253,4 +257,5 @@ public class ManageUserController implements Initializable {
             txtUserId.setText(number >= 100 ? "PLU" + number : number < 10 ? "PLU00" + number : "PLU0" + number);
         }
     }
+
 }

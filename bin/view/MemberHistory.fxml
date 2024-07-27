@@ -18,11 +18,11 @@
         <columns>
           <TableColumn fx:id="colBookId" text="Book ID" />
           <TableColumn fx:id="colBorrowDate" prefWidth="150.0" text="Borrow Date" />
-            <TableColumn fx:id="ccolReturnDate" prefWidth="150.0" text="Return Date" />
+            <TableColumn fx:id="colReturnDate" prefWidth="150.0" text="Return Date" />
             <TableColumn fx:id="colBorCondition" prefWidth="150.0" text="Borrow Condition" />
             <TableColumn fx:id="colRetCondition" prefWidth="150.0" text="Return Condition" />
             <TableColumn fx:id="colFines" prefWidth="150.0" text="Fines" />
-            <TableColumn fx:id="ccolFineReason" prefWidth="300.0" text="Fined Reason" />
+            <TableColumn fx:id="colFineReason" prefWidth="300.0" text="Fined Reason" />
         </columns>
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
