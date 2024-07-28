@@ -15,16 +15,19 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import security.LoginSecurity;
 import service.ServiceFactory;
 import service.ServiceFactory.ServiceType;
 import service.custom.CategoryService;
-import service.custom.UserService;
 import tableModel.CatTM;
 
 public class ManageCategoriesController implements Initializable {
@@ -58,12 +61,21 @@ public class ManageCategoriesController implements Initializable {
     @FXML
     private TextField txtCategory;
 
-    UserService service = (UserService) ServiceFactory.getInstance().getService(ServiceType.USER);
     CategoryService categoryService = (CategoryService) ServiceFactory.getInstance().getService(ServiceType.CATEGORY);
 
+
+    // ------------DELETE A CATEGORY----------------
     @FXML
     void btnDeleteOnAction(ActionEvent event) {
-
+        try {
+            String id = txtCatCode.getText();
+            String response = categoryService.delete(id);
+            showDialog("Message", response);
+            clearForm();
+            loadTable();
+        } catch (Exception e) {
+            showDialog("Error", "Error while deleting category...");
+        }
     }
 
     @FXML
@@ -71,14 +83,66 @@ public class ManageCategoriesController implements Initializable {
         goToHome(LoginSecurity.getInstance().getIsAdmin()); 
     }
 
+    // ------------SAVE A NEW CATEGORY----------------
     @FXML
     void btnSaveOnAction(ActionEvent event) {
-
+        try {
+            CategoryDto categoryDto = new CategoryDto(txtCatCode.getText(), txtCategory.getText());
+            String response = categoryService.save(categoryDto);
+            showDialog("Message", response);
+            clearForm();
+            loadTable();
+        } catch (Exception e) {
+            showDialog("Error", "Error whhile saving catagory...");
+        }
     }
 
+    // ------------UDATE A CATEGORY----------------
     @FXML
     void btnUpdateOnAction(ActionEvent event) {
+        try {
+            CategoryDto categoryDto = new CategoryDto(txtCatCode.getText(), txtCategory.getText());
+            String response = categoryService.update(categoryDto);
+            showDialog("Message", response);
+            loadTable();
+            clearForm();
+        } catch (Exception e) {
+            showDialog("Error", "Error while updating category...");
+        }
+    }
 
+
+    // ------------LOAD THE DATA FROM CLICKED ROW----------------
+    @FXML
+    void tblCategoryOnMouseClicked(MouseEvent event) {
+        CatTM catTM = tblCategory.getSelectionModel().getSelectedItem();
+        txtCatCode.setText(catTM.getId());
+        txtCategory.setText(catTM.getName());
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        colCatCode.setCellValueFactory(new PropertyValueFactory<>("id"));
+        colCatName.setCellValueFactory(new PropertyValueFactory<>("name"));
+
+        loadTable();
+    }
+
+    // ------------INSERT DATA TO TE TABLE FROM DATABASE----------------
+    private void loadTable() {
+        try {
+            ArrayList<CategoryDto> arrayList = categoryService.getAll();
+            ObservableList<CatTM> observableList = FXCollections.observableArrayList();
+            for (CategoryDto dto : arrayList) {
+                CatTM tm = new CatTM(dto.getId(), dto.getName());
+                observableList.add(tm);
+            }
+
+            tblCategory.setItems(observableList);
+        } catch (Exception e) {
+            showDialog("Error", "Error while loading table...");
+            e.printStackTrace();
+        }
     }
 
     //------------LOAD THE HOME PAGE----------------
@@ -94,28 +158,21 @@ public class ManageCategoriesController implements Initializable {
         }
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        colCatCode.setCellValueFactory(new PropertyValueFactory<>("id"));
-        colCatName.setCellValueFactory(new PropertyValueFactory<>("name"));
-
-        loadTable();
+    // ------------SHOW POP-UP DIALOGS----------------
+    private void showDialog(String title, String content) {
+        Dialog<String> dialog = new Dialog<>();
+        dialog.setTitle(title);
+        ButtonType buttonType = new ButtonType("OK", ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().add(buttonType);
+        dialog.setContentText(content);
+        dialog.showAndWait();
     }
 
-    private void loadTable() {
-        try {
-            ArrayList<CategoryDto> arrayList = categoryService.getAll();
-            ObservableList<CatTM> observableList = FXCollections.observableArrayList();
-            for (CategoryDto dto : arrayList) {
-                CatTM tm = new CatTM(dto.getId(), dto.getName());
-                observableList.add(tm);
-            }
-
-            tblCategory.setItems(observableList);
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+    // ------------CLEAR TEXT FIELDS----------------
+    private void clearForm(){
+        txtCatCode.clear();
+        txtCategory.clear();
+        root.requestFocus();
     }
 
 }
