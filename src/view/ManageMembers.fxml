@@ -15,7 +15,7 @@
             <Font name="System Bold" size="24.0" />
          </font>
       </Label>
-      <TableView fx:id="tblMembet" layoutX="10.0" layoutY="289.0" prefHeight="520.0" prefWidth="1400.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="280.0">
+      <TableView fx:id="tblMembet" layoutX="10.0" layoutY="289.0" onMouseClicked="#tblMemberOnMouseClocked" prefHeight="520.0" prefWidth="1400.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="280.0">
         <columns>
           <TableColumn fx:id="colMemberId" text="Member ID" />
           <TableColumn fx:id="colFirstName" prefWidth="260.0" text="First Name" />
@@ -28,7 +28,7 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
-      <TextField fx:id="txtMemberId" editable="false" layoutX="50.0" layoutY="99.0" prefHeight="25.0" prefWidth="150.0" promptText="Member ID" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="99.0" />
+      <TextField fx:id="txtMemberId" editable="false" layoutX="50.0" layoutY="99.0" onMouseClicked="#txtMemberIdOnMouseClicked" prefHeight="25.0" prefWidth="150.0" promptText="Member ID" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="99.0" />
       <TextField fx:id="txtFirstName" layoutX="50.0" layoutY="138.0" prefHeight="25.0" prefWidth="150.0" promptText="First Name" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="139.0" />
       <TextField fx:id="txtLastName" layoutX="50.0" layoutY="179.0" prefHeight="25.0" prefWidth="150.0" promptText="Last Name" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="179.0" />
       <TextField fx:id="txtDob" layoutX="50.0" layoutY="216.0" prefHeight="25.0" prefWidth="150.0" promptText="DOB   yyyy-mm-dd" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="219.0" />
