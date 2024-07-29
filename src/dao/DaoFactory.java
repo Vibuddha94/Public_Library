@@ -2,6 +2,7 @@ package dao;
 
 import dao.impl.BooksDaoImpl;
 import dao.impl.CategoryDaoImpl;
+import dao.impl.FinesDaoImpl;
 import dao.impl.MemberDaoImpl;
 import dao.impl.UserDaoImpl;
 
@@ -31,15 +32,17 @@ public class DaoFactory {
                 return new BooksDaoImpl();
             case BORROWING:
                 return null;
+            case BORROW_RETURN:
+                return null;    
             case FINE:
-                return null;
+                return new FinesDaoImpl();
             default:
                 return null;
         }
     }
 
     public enum DaoType {
-        USER, CATEGORY, MEMBER, BOOK, BORROWING, FINE
+        USER, CATEGORY, MEMBER, BOOK, BORROWING, FINE, BORROW_RETURN
     }
 
 }

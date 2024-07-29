@@ -2,6 +2,7 @@ package service;
 
 import service.impl.BookServiceImpl;
 import service.impl.CategoryServiceImpl;
+import service.impl.FinesServiceImpl;
 import service.impl.MemberServiceImpl;
 import service.impl.UserServiceImpl;
 
@@ -32,7 +33,7 @@ public class ServiceFactory {
             case BORROWING:
                 return null;
             case FINE:
-                return null;
+                return new FinesServiceImpl();
             default:
                 return null;
         }

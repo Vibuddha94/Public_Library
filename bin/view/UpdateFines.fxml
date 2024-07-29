@@ -8,14 +8,14 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="850.0" prefWidth="1500.0" styleClass="root" stylesheets="@../cssStyle/Background.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.UpdateFinesController">
+<AnchorPane fx:id="root" focusTraversable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="850.0" prefWidth="1500.0" styleClass="root" stylesheets="@../cssStyle/Background.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.UpdateFinesController">
    <children>
       <Label alignment="CENTER" layoutX="14.0" layoutY="14.0" prefHeight="45.0" prefWidth="238.0" style="-fx-background-color: #fbc5316e;" text="Update Fines" textFill="#0c0c69" underline="true">
          <font>
             <Font name="System Bold" size="24.0" />
          </font>
       </Label>
-      <TableView fx:id="tblFines" layoutX="50.0" layoutY="232.0" onMouseClicked="#tblFineClickOnAction" prefHeight="53.0" prefWidth="700.0" AnchorPane.bottomAnchor="565.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="750.0" AnchorPane.topAnchor="230.0">
+      <TableView fx:id="tblFines" focusTraversable="false" layoutX="50.0" layoutY="232.0" onMouseClicked="#tblFineClickOnAction" prefHeight="53.0" prefWidth="700.0" AnchorPane.bottomAnchor="565.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="750.0" AnchorPane.topAnchor="230.0">
         <columns>
             <TableColumn fx:id="colLate" prefWidth="200.0" text="Late Fine / Day" />
             <TableColumn fx:id="colDamage" prefWidth="200.0" text="Damaged Book" />
@@ -25,7 +25,7 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
-      <TextField fx:id="txtLate" editable="false" layoutX="50.0" layoutY="152.0" prefHeight="25.0" prefWidth="150.0" promptText="Late Fine / Day" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="150.0" />
+      <TextField fx:id="txtLate" layoutX="50.0" layoutY="152.0" prefHeight="25.0" prefWidth="150.0" promptText="Late Fine / Day" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="150.0" />
       <TextField fx:id="txtDamage" layoutX="250.0" layoutY="152.0" prefHeight="25.0" prefWidth="150.0" promptText="Damaged Book" AnchorPane.leftAnchor="250.0" AnchorPane.topAnchor="152.0" />
       <TextField fx:id="txtLost" layoutX="450.0" layoutY="152.0" prefHeight="25.0" prefWidth="150.0" promptText="Lost Book" AnchorPane.leftAnchor="450.0" AnchorPane.topAnchor="152.0" />
       <JFXButton fx:id="btnUpdate" buttonType="RAISED" layoutX="650.0" layoutY="147.0" onAction="#btnUpdateOnAction" prefHeight="25.0" prefWidth="100.0" style="-fx-border-radius: 10; -fx-border-color: #ecf0f1; -fx-background-radius: 10;" text="UPDATE" textFill="#1245c6" AnchorPane.leftAnchor="650.0" AnchorPane.rightAnchor="750.0" AnchorPane.topAnchor="146.0">
