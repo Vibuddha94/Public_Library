@@ -16,7 +16,7 @@
             <Font name="System Bold" size="24.0" />
          </font>
       </Label>
-      <TableView fx:id="tblBooks" focusTraversable="false" layoutX="10.0" layoutY="289.0" prefHeight="520.0" prefWidth="1400.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="280.0">
+      <TableView fx:id="tblBooks" focusTraversable="false" layoutX="10.0" layoutY="289.0" onMouseClicked="#tblBooksOnMouseClicked" prefHeight="520.0" prefWidth="1400.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="280.0">
         <columns>
           <TableColumn fx:id="colBookId" text="Book ID" />
           <TableColumn fx:id="colCatagory" prefWidth="90.0" text="Category" />
@@ -32,7 +32,6 @@
       </TableView>
       <TextField fx:id="txtBookId" editable="false" focusTraversable="false" layoutX="50.0" layoutY="139.0" prefHeight="25.0" prefWidth="184.0" promptText="Book ID" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="139.0" />
       <TextField fx:id="txtName" focusTraversable="false" layoutX="50.0" layoutY="179.0" prefHeight="25.0" prefWidth="184.0" promptText="Name" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="179.0" />
-      <TextField fx:id="txtStatus" editable="false" layoutX="50.0" layoutY="219.0" prefHeight="25.0" prefWidth="184.0" promptText="Status" text="Available" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="219.0" />
       <TextField fx:id="txtAuthor" focusTraversable="false" layoutX="290.0" layoutY="139.0" prefHeight="25.0" prefWidth="160.0" promptText="Publisher" AnchorPane.topAnchor="139.0" />
       <JFXButton fx:id="btnSave" buttonType="RAISED" focusTraversable="false" layoutX="510.0" layoutY="93.0" onAction="#btnSaveOnAction" prefHeight="25.0" prefWidth="100.0" style="-fx-border-radius: 10; -fx-border-color: #ecf0f1; -fx-background-radius: 10;" text="SAVE" textFill="#218026" AnchorPane.topAnchor="95.0">
          <font>
@@ -54,7 +53,7 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </JFXButton>
-      <JFXComboBox fx:id="comboBoxCategory" layoutX="50.0" layoutY="99.0" prefHeight="25.0" prefWidth="184.0" promptText="--------Select Category--------" style="-fx-background-color: #ffffff;" unFocusColor="WHITE" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="99.0" />
+      <JFXComboBox fx:id="comboBoxCategory" layoutX="50.0" layoutY="99.0" onAction="#cboxCategoryOnAction" prefHeight="25.0" prefWidth="184.0" promptText="--------Select Category--------" style="-fx-background-color: #ffffff;" unFocusColor="WHITE" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="99.0" />
       <TextField fx:id="txtPrice" focusTraversable="false" layoutX="290.0" layoutY="219.0" prefHeight="25.0" prefWidth="160.0" promptText="Price" AnchorPane.topAnchor="179.0" />
       <JFXButton fx:id="btnHistory" buttonType="RAISED" focusTraversable="false" layoutX="510.0" layoutY="216.0" onAction="#btnHistoryOnAction" prefHeight="32.0" prefWidth="160.0" style="-fx-border-radius: 10; -fx-border-color: #ecf0f1; -fx-background-radius: 10;" text="BOOK HISTORY" textFill="#fffb00" AnchorPane.topAnchor="215.0">
          <font>
@@ -62,5 +61,6 @@
          </font>
       </JFXButton>
       <JFXComboBox fx:id="comboBoxCondition" layoutX="290.0" layoutY="99.0" prefHeight="26.0" prefWidth="160.0" promptText="-----Select Condition-----" style="-fx-background-color: #ffffff;" unFocusColor="WHITE" />
+      <JFXComboBox fx:id="comboBoxStatus" layoutX="50.0" layoutY="218.0" prefHeight="25.0" prefWidth="184.0" promptText="----------Select Status---------" style="-fx-background-color: #ffffff;" unFocusColor="WHITE" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="219.0" />
    </children>
 </AnchorPane>

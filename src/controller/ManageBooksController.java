@@ -2,11 +2,15 @@ package controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 
+import dto.BooksDto;
+import dto.CategoryDto;
+import dto.UserDto;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -14,16 +18,25 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import security.LoginSecurity;
+import service.ServiceFactory;
+import service.ServiceFactory.ServiceType;
+import service.custom.BookService;
+import service.custom.CategoryService;
 import tableModel.BooksTM;
+import tableModel.UserTM;
 
 public class ManageBooksController implements Initializable {
-    
+
     @FXML
     private JFXButton btnDelete;
 
@@ -61,10 +74,14 @@ public class ManageBooksController implements Initializable {
     private TableColumn<BooksTM, String> colStatus;
 
     @FXML
-    private JFXComboBox<?> comboBoxCategory;
+    private JFXComboBox<String> comboBoxCategory;
 
     @FXML
-    private JFXComboBox<?> comboBoxCondition;
+    private JFXComboBox<String> comboBoxCondition;
+
+    @FXML
+    private JFXComboBox<String> comboBoxStatus;
+
 
     @FXML
     private AnchorPane root;
@@ -84,12 +101,19 @@ public class ManageBooksController implements Initializable {
     @FXML
     private TextField txtPrice;
 
-    @FXML
-    private TextField txtStatus;
+    BookService bookService = (BookService) ServiceFactory.getInstance().getService(ServiceType.BOOK);
+    CategoryService categoryService = (CategoryService) ServiceFactory.getInstance().getService(ServiceType.CATEGORY);
 
     @FXML
     void btnDeleteOnAction(ActionEvent event) {
-
+        try {
+            String bookId = txtBookId.getText();
+            String response = bookService.delete(bookId);
+            showDialog("Message", response);
+            comboBoxCategory.setValue("All");
+        } catch (Exception e) {
+            showDialog("Error", "Error while deleting book...");
+        }
     }
 
     @FXML
@@ -101,30 +125,47 @@ public class ManageBooksController implements Initializable {
 
     @FXML
     void btnHomeOnAction(ActionEvent event) throws IOException, Exception {
-        goToHome(LoginSecurity.getInstance().getIsAdmin());        
+        goToHome(LoginSecurity.getInstance().getIsAdmin());
     }
 
     @FXML
     void btnSaveOnAction(ActionEvent event) {
-
+        try {
+            BooksDto booksDto = new BooksDto();
+            setValueFrom(booksDto);
+            if (booksDto.getCatCode().equals("ALL")) {
+                showDialog("Error", "Please select a catagory");
+            } else {
+                String response = bookService.save(booksDto);
+                showDialog("Message", response);
+                comboBoxCategory.setValue("All");
+            }
+        } catch (Exception e) {
+            showDialog("Error", "Error while saving book...");
+        }
     }
 
     @FXML
     void btnUpdateOnAction(ActionEvent event) {
-
+        try {
+            BooksDto booksDto = new BooksDto();
+            setValueFrom(booksDto);
+            String response = bookService.update(booksDto);
+            showDialog("Message", response);
+            comboBoxCategory.setValue("All");
+        } catch (Exception e) {
+            showDialog("Error", "Error while updating book...");
+        }
     }
 
-    //------------LOAD THE HOME PAGE----------------
-    private void goToHome(boolean isAdmin) throws IOException{
-        if (isAdmin) {
-            this.root.getChildren().clear();
-            Parent node = FXMLLoader.load(this.getClass().getResource("/view/AdminView.fxml")); //------------LOAD IF THE USER IS AN ADMIN----------------
-            this.root.getChildren().add(node);
-        } else {
-            this.root.getChildren().clear();
-            Parent node = FXMLLoader.load(this.getClass().getResource("/view/UserView.fxml")); //------------LOAD IF THE USER IS A NON-ADMIN USER----------------
-            this.root.getChildren().add(node);
-        }
+    @FXML
+    void tblBooksOnMouseClicked(MouseEvent event) {
+        setValueTo(tblBooks.getSelectionModel().getSelectedItem());
+    }
+
+    @FXML
+    void cboxCategoryOnAction(ActionEvent event) {
+        filterTable(getCatCode(comboBoxCategory.getSelectionModel().getSelectedItem()));
     }
 
     @Override
@@ -138,13 +179,168 @@ public class ManageBooksController implements Initializable {
         colPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
 
         loadTable();
+
+        loadCategoryCBox();
+        comboBoxCategory.setValue("All");
+        loadConditionCBox();
+        loadStatusCBox();
+
+    }
+
+    private void loadStatusCBox() {
+        ObservableList<String> status = FXCollections.observableArrayList("Available", "Issued","Lost");
+        comboBoxStatus.setItems(status);
     }
 
     private void loadTable() {
-        ObservableList<BooksTM> observableList = FXCollections.observableArrayList();
-        BooksTM tm = new BooksTM("111", "ART", "aaaa bbbb", "Available", "Good", "ccc", 50.0);
-        observableList.add(tm);
-        tblBooks.setItems(observableList);
+        try {
+            ObservableList<BooksTM> observableList = FXCollections.observableArrayList();
+            ArrayList<BooksDto> booksDtos = bookService.getAll();
+            for (BooksDto booksDto : booksDtos) {
+                BooksTM tm = new BooksTM(booksDto.getBookId(), booksDto.getCatCode(), booksDto.getName(),
+                        booksDto.getStatus(), booksDto.getCondition(), booksDto.getAuthor(), booksDto.getPrice());
+                observableList.add(tm);
+            }
+            loadBookId(observableList.getLast().getBookId());
+            tblBooks.setItems(observableList);
+        } catch (Exception e) {
+            showDialog("Error", "Error while loading table...");
+        }
+    }
+
+    private void loadConditionCBox() {
+        ObservableList<String> categories = FXCollections.observableArrayList("Good", "Damaged");
+        comboBoxCondition.setItems(categories);
+    }
+
+    private void loadCategoryCBox() {
+        try {
+            ObservableList<String> categories = FXCollections.observableArrayList();
+            ArrayList<CategoryDto> categoryDtos = categoryService.getAll();
+            for (CategoryDto categoryDto : categoryDtos) {
+                categories.add(categoryDto.getName());
+            }
+            comboBoxCategory.setItems(categories);
+        } catch (Exception e) {
+            showDialog("Error", "Error while loading categories...");
+        }
+    }
+
+    // ------------LOAD THE HOME PAGE----------------
+    private void goToHome(boolean isAdmin) throws IOException {
+        if (isAdmin) {
+            this.root.getChildren().clear();
+            Parent node = FXMLLoader.load(this.getClass().getResource("/view/AdminView.fxml")); // ------------LOAD IF THE USER IS AN ADMIN----------------
+            this.root.getChildren().add(node);
+        } else {
+            this.root.getChildren().clear();
+            Parent node = FXMLLoader.load(this.getClass().getResource("/view/UserView.fxml")); // ------------LOAD IF THE USER IS A NON-ADMIN USER----------------                                                                              
+            this.root.getChildren().add(node);
+        }
+    }
+
+    // ------------SHOW POP-UP DIALOGS----------------
+    private void showDialog(String title, String content) {
+        Dialog<String> dialog = new Dialog<>();
+        dialog.setTitle(title);
+        ButtonType buttonType = new ButtonType("OK", ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().add(buttonType);
+        dialog.setContentText(content);
+        dialog.showAndWait();
+    }
+
+    // ------------SET VALUES TO THE TEXT FIELDS FROM A TM----------------
+    private void setValueTo(BooksTM tm) {
+        txtBookId.setText(tm.getBookId());
+        txtName.setText(tm.getName());
+        txtAuthor.setText(tm.getAuthor());
+        txtPrice.setText(String.valueOf(tm.getPrice()));
+        comboBoxCategory.setValue(getCatName(tm.getCatCode()));
+        comboBoxCondition.setValue(tm.getCondition());
+        comboBoxStatus.setValue(tm.getStatus());
+    }
+
+    // ------------SET VALUES TO A DTO FROM TEXT FIELDS----------------
+    private void setValueFrom(BooksDto dto) {
+        dto.setBookId(txtBookId.getText());
+        dto.setCatCode(getCatCode(comboBoxCategory.getSelectionModel().getSelectedItem()));
+        dto.setName(txtName.getText());
+        dto.setStatus(comboBoxStatus.getSelectionModel().getSelectedItem());
+        dto.setCondition(comboBoxCondition.getSelectionModel().getSelectedItem());
+        dto.setAuthor(txtAuthor.getText());
+        dto.setPrice(Double.valueOf(txtPrice.getText()));
+    }
+
+    private String getCatCode(String selectedItem) {
+        try {
+            ArrayList<CategoryDto> categoryDtos = categoryService.getAll();
+            for (CategoryDto categoryDto : categoryDtos) {
+                if (categoryDto.getName().equals(selectedItem)) {
+                    return categoryDto.getId();
+                }
+            }
+            return null;
+        } catch (Exception e) {
+            showDialog("Error", "Error getting categories...");
+            return null;
+        }
+    }
+
+    private String getCatName(String catCode) {
+        try {
+            ArrayList<CategoryDto> categoryDtos = categoryService.getAll();
+            for (CategoryDto categoryDto : categoryDtos) {
+                if (categoryDto.getId().equals(catCode)) {
+                    return categoryDto.getName();
+                }
+            }
+            return null;
+        } catch (Exception e) {
+            showDialog("Error", "Error getting categories...");
+            return null;
+        }
+    }
+
+    private void filterTable(String category) { 
+        try {
+            if (category.equals("ALL")) {
+                loadTable();
+                clearForm();
+            } else {
+                ObservableList<BooksTM> observableList = FXCollections.observableArrayList();
+                ArrayList<BooksDto> booksDtos = bookService.getAll();
+                for (BooksDto booksDto : booksDtos) {
+                    if (booksDto.getCatCode().equals(category)) {
+                        BooksTM tm = new BooksTM(booksDto.getBookId(), booksDto.getCatCode(), booksDto.getName(),
+                            booksDto.getStatus(), booksDto.getCondition(), booksDto.getAuthor(), booksDto.getPrice());
+                        observableList.add(tm);
+                    } 
+                }
+                tblBooks.setItems(observableList);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            showDialog("Error", "Error while loading table...");
+        }
+    }
+
+    private void loadBookId(String id) {
+        if (id == null) {
+            txtBookId.setText("B00001");
+        } else {
+            String[] split = id.split("B");
+            int number = Integer.valueOf(split[1]);
+            number++;
+            txtBookId.setText(number >= 100 ? "B" + number : number < 10 ? "B00" + number : "B0" + number);
+        }
+    }
+
+    private void clearForm(){
+        txtName.clear();
+        txtAuthor.clear();
+        txtPrice.clear();
+        comboBoxStatus.setValue(null);
+        comboBoxCondition.setValue(null);
     }
 
 }

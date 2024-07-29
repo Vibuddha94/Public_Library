@@ -1,5 +1,6 @@
 package dao;
 
+import dao.impl.BooksDaoImpl;
 import dao.impl.CategoryDaoImpl;
 import dao.impl.MemberDaoImpl;
 import dao.impl.UserDaoImpl;
@@ -27,7 +28,7 @@ public class DaoFactory {
             case MEMBER:
                 return new MemberDaoImpl();
             case BOOK:
-                return null;
+                return new BooksDaoImpl();
             case BORROWING:
                 return null;
             case FINE:
