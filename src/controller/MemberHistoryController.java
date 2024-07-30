@@ -2,10 +2,12 @@ package controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXButton;
 
+import dto.MemberDto;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -13,11 +15,18 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import service.ServiceFactory;
+import service.ServiceFactory.ServiceType;
+import service.custom.HistoryService;
+import service.custom.MemberService;
 import tableModel.HistoryTM;
 
 public class MemberHistoryController implements Initializable {
@@ -54,7 +63,11 @@ public class MemberHistoryController implements Initializable {
     @FXML
     private TableView<HistoryTM> tblMemHistory;
 
-    public static String MemberId;
+    public static String id;
+
+    HistoryService historyService = (HistoryService) ServiceFactory.getInstance().getService(ServiceType.HISTORY);
+    MemberService memberService = (MemberService) ServiceFactory.getInstance().getService(ServiceType.MEMBER);
+    
 
     @FXML
     void btnBackOnAction(ActionEvent event) throws IOException {
@@ -74,13 +87,40 @@ public class MemberHistoryController implements Initializable {
         colFineReason.setCellValueFactory(new PropertyValueFactory<>("finedReason"));
 
         loadTable();
+        loadMemberDetail();
+    }
+
+    private void loadMemberDetail() {
+        try {
+            MemberDto memberDto = memberService.get(id);
+            lblDetail.setText(memberDto.getMemberId() + " | " + memberDto.getFirstName() + " " + memberDto.getLastName());
+        } catch (Exception e) {
+            showDialog("Error", "Error while loading member...");
+        }
     }
 
     private void loadTable() {
-        ObservableList<HistoryTM> observableList = FXCollections.observableArrayList();
-        HistoryTM tm = new HistoryTM("111", "", "2024-07-23", "2024-08-02", "Good", "Good", 50.5, "Late");
-        observableList.add(tm);
-        tblMemHistory.setItems(observableList);
+        try {
+            ObservableList<HistoryTM> observableList = FXCollections.observableArrayList();
+            ArrayList<HistoryTM> historyTMs = historyService.getMemberHistory(id);
+            for (HistoryTM historyTM : historyTMs) {
+                observableList.add(historyTM);
+            } 
+            tblMemHistory.setItems(observableList);
+        } catch (Exception e) {
+            showDialog("Error", "Error while loading table...");
+        }       
+        
+    }
+
+    // ------------SHOW POP-UP DIALOGS----------------
+    private void showDialog(String title, String content) {
+        Dialog<String> dialog = new Dialog<>();
+        dialog.setTitle(title);
+        ButtonType buttonType = new ButtonType("OK", ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().add(buttonType);
+        dialog.setContentText(content);
+        dialog.showAndWait();
     }
 
 }

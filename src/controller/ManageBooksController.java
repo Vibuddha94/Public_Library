@@ -10,7 +10,6 @@ import com.jfoenix.controls.JFXComboBox;
 
 import dto.BooksDto;
 import dto.CategoryDto;
-import dto.UserDto;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -33,7 +32,6 @@ import service.ServiceFactory.ServiceType;
 import service.custom.BookService;
 import service.custom.CategoryService;
 import tableModel.BooksTM;
-import tableModel.UserTM;
 
 public class ManageBooksController implements Initializable {
 
@@ -118,6 +116,7 @@ public class ManageBooksController implements Initializable {
 
     @FXML
     void btnHistoryOnAction(ActionEvent event) throws IOException {
+        BookHistoryController.bookID = txtBookId.getText();
         this.root.getChildren().clear();
         Parent node = FXMLLoader.load(this.getClass().getResource("/view/BookHistory.fxml"));
         this.root.getChildren().add(node);
@@ -324,14 +323,15 @@ public class ManageBooksController implements Initializable {
         }
     }
 
-    private void loadBookId(String id) {
-        if (id == null) {
+    private void loadBookId(String bookId) {
+        if (bookId == null) {
             txtBookId.setText("B00001");
         } else {
-            String[] split = id.split("B");
+            String[] split = bookId.split("B");
             int number = Integer.valueOf(split[1]);
             number++;
-            txtBookId.setText(number >= 100 ? "B" + number : number < 10 ? "B00" + number : "B0" + number);
+            String id = 10>number ? "B0000" + number : 100>number ? "B000" + number : 1000>number ? "B00" + number : 10000> number ? "B0" + number : "B" + number;
+            txtBookId.setText(id);
         }
     }
 

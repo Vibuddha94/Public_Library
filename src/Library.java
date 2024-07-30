@@ -1,5 +1,4 @@
 import java.net.URL;
-
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -8,7 +7,7 @@ import javafx.stage.Stage;
 
 public class Library extends Application {
     public static void main(String[] args) throws Exception {
-        launch(args);
+       launch(args);
     }
 
     @Override
@@ -19,4 +18,6 @@ public class Library extends Application {
         primaryStage.setTitle("Public Library");
         primaryStage.show();
     }
+
+    
 }

@@ -190,16 +190,15 @@ public class ManageUserController implements Initializable {
                 observableList.add(tm);
             }
 
-            loadUserId(userDtos.get(userDtos.size() - 1).getUserId());
+            loadUserId(observableList.getLast().getUserId());
             tblUser.setItems(observableList);
 
         } catch (Exception e) {
-            ButtonType buttonType = new ButtonType("OK", ButtonData.OK_DONE);
-            new Alert(Alert.AlertType.ERROR, "Error while loading table...", buttonType);
+            showDialog("Error", "Error while loading table...");
         }
     }
 
-    // ------------SET VALUES TO THE TEXT FIELDS FROM A DTO----------------
+    // ------------SET VALUES TO THE TEXT FIELDS FROM A TM----------------
     private void setValueFrom(UserTM dto) {
         txtUserId.setText(dto.getUserId());
         txtFirstName.setText(dto.getFirstName());
@@ -247,14 +246,15 @@ public class ManageUserController implements Initializable {
     }
 
     // ------------LOAD THE NEXT USER ID AUTOMATICALLY----------------
-    private void loadUserId(String id) {
-        if (id.equals("ADMIN")) {
+    private void loadUserId(String useId) {
+        if (useId.equals("ADMIN")) {
             txtUserId.setText("PLU001");
         } else {
-            String[] split = id.split("PLU");
+            String[] split = useId.split("PLU");
             int number = Integer.valueOf(split[1]);
             number++;
-            txtUserId.setText(number >= 100 ? "PLU" + number : number < 10 ? "PLU00" + number : "PLU0" + number);
+            String id = 10>number ? "PLU00" + number : 100>number ? "PLU0" + number : "PLU" + number;
+            txtUserId.setText(id);
         }
     }
 

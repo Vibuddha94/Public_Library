@@ -110,6 +110,7 @@ public class ManageMembersController implements Initializable {
 
     @FXML
     void btnHistoryOnAction(ActionEvent event) throws IOException {
+        MemberHistoryController.id = txtMemberId.getText();
         this.root.getChildren().clear();
         Parent node = FXMLLoader.load(this.getClass().getResource("/view/MemberHistory.fxml"));
         this.root.getChildren().add(node);
@@ -187,7 +188,8 @@ public class ManageMembersController implements Initializable {
             String[] split = memberId.split("MEM");
             int number = Integer.valueOf(split[1]);
             number++;
-            txtMemberId.setText(number >= 100 ? "MEM" + number : number < 10 ? "MEM00" + number : "MEM0" + number);
+            String id = 10>number ? "MEM0000" + number : 100>number ? "MEM000" + number : 1000>number ? "MEM00" + number : 10000> number ? "MEM0" + number : "MEM" + number;
+            txtMemberId.setText(id);
     }
 
     // ------------SHOW POP-UP DIALOGS----------------

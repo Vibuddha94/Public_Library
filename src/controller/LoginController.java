@@ -50,7 +50,7 @@ public class LoginController {
             goToHome(LoginSecurity.getInstance().getIsAdmin());
         } else {
             showDialog("Error", "Enter correct Password.");
-            clearForm(); 
+            txtPasword.clear(); 
         }
 
 
@@ -72,6 +72,7 @@ public class LoginController {
     private void clearForm(){
         txtPasword.clear();
         txtUserId.clear();
+        txtUserId.requestFocus();
     }
 
 
