@@ -2,11 +2,18 @@ package controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 
+import dto.BooksDto;
+import dto.BorrowDto;
+import dto.Borrow_ReturnDetailDto;
+import dto.MemberDto;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -14,6 +21,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -21,6 +31,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import security.LoginSecurity;
+import service.ServiceFactory;
+import service.ServiceFactory.ServiceType;
+import service.custom.BookService;
+import service.custom.BorrowService;
+import service.custom.MemberService;
 import tableModel.BorrowTM;
 
 public class ManageBorrowingController implements Initializable {
@@ -52,7 +67,7 @@ public class ManageBorrowingController implements Initializable {
     private TableColumn<BorrowTM, String> colReturnDate;
 
     @FXML
-    private JFXComboBox<?> comboBox;
+    private JFXComboBox<String> comboBox;
 
     @FXML
     private Label lblBookDetail;
@@ -78,9 +93,15 @@ public class ManageBorrowingController implements Initializable {
     @FXML
     private TextField txtReturnDate;
 
+    BorrowService borrowService = (BorrowService) ServiceFactory.getInstance().getService(ServiceType.BORROWING);
+    MemberService memberService = (MemberService) ServiceFactory.getInstance().getService(ServiceType.MEMBER);
+    BookService bookService = (BookService) ServiceFactory.getInstance().getService(ServiceType.BOOK);
+    ArrayList<Borrow_ReturnDetailDto> detailDtos = new ArrayList<>();
+    ObservableList<BorrowTM> observableList = FXCollections.observableArrayList();
+
     @FXML
     void btnAddOnAction(ActionEvent event) {
-
+        addToTable(new BorrowTM(txtBookId.getText(), comboBox.getSelectionModel().getSelectedItem(), txtReturnDate.getText()));
     }
 
     @FXML
@@ -90,22 +111,54 @@ public class ManageBorrowingController implements Initializable {
 
     @FXML
     void btnIssueOnAction(ActionEvent event) {
-
+        try {
+            for (BorrowTM borrowTM : observableList) {
+                detailDtos.add(new Borrow_ReturnDetailDto(txtBorrowId.getText(), borrowTM.getBookId(), borrowTM.getIsuueCondition(), "PENDING", borrowTM.getReturnDate(), 0.0, "PENDING"));
+            }
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            String date = sdf.format(new Date());
+            BorrowDto borrowDto = new BorrowDto(txtBorrowId.getText(), date, txtMemberId.getText(), detailDtos);
+            String response = borrowService.save(borrowDto);
+            showDialog("Message", response);
+            clearAll();
+            tblBorrow.setItems(observableList);
+            loadBorrowId();
+        } catch (Exception e) {
+            showDialog("Error", "Error while issuing books...");
+        }
     }
 
     @FXML
     void btnRemoveOnAction(ActionEvent event) {
-
+        tblBorrow.getItems().remove(tblBorrow.getSelectionModel().getSelectedIndex());
     }
 
     @FXML
-    void btnSearcchMemberOnAction(ActionEvent event) {
-
+    void btnSearchBookOnAction(ActionEvent event) {
+        try {
+            BooksDto booksDto = bookService.get(txtBookId.getText());
+            if (booksDto != null) {
+                lblBookDetail.setText(booksDto.getBookId() + " | " + booksDto.getName());
+            } else {
+                lblBookDetail.setText("Book Not Found");
+            }
+        } catch (Exception e) {
+            System.out.println("Error");
+        }
     }
 
     @FXML
     void btnSearchMemberOnAction(ActionEvent event) {
-
+        try {
+            MemberDto memberDto = memberService.get(txtMemberId.getText());
+            if (memberDto != null) {
+                lblMemberDetail.setText(memberDto.getMemberId() + " | " + memberDto.getFirstName() + " " + memberDto.getLastName());
+            } else {
+                lblMemberDetail.setText("Member Not Found");
+            }
+        } catch (Exception e) {
+            System.out.println("Error");
+        }
     }
 
     //------------LOAD THE HOME PAGE----------------
@@ -127,14 +180,56 @@ public class ManageBorrowingController implements Initializable {
         colIssueCondition.setCellValueFactory(new PropertyValueFactory<>("isuueCondition"));
         colReturnDate.setCellValueFactory(new PropertyValueFactory<>("returnDate"));
 
-        loadtable();
+        loadComboBox();
+        loadBorrowId();
     }
 
-    private void loadtable() {
-        ObservableList<BorrowTM> observableList = FXCollections.observableArrayList();
-        BorrowTM tm = new BorrowTM("111", "Good", "2024-08-01");
-        observableList.add(tm);
+    private void loadComboBox() {
+        ObservableList<String> observableList = FXCollections.observableArrayList("Good", "Damaged");
+        comboBox.setItems(observableList);
+        comboBox.setValue("Good");
+    }
+
+    private void addToTable(BorrowTM borrowTM) {
+        observableList.add(borrowTM);
         tblBorrow.setItems(observableList);
     }
+
+    // ------------SHOW POP-UP DIALOGS----------------
+    private void showDialog(String title, String content) {
+        Dialog<String> dialog = new Dialog<>();
+        dialog.setTitle(title);
+        ButtonType buttonType = new ButtonType("OK", ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().add(buttonType);
+        dialog.setContentText(content);
+        dialog.showAndWait();
+    }
+
+    private void loadBorrowId() {
+        String memberId;
+        try {
+            memberId = borrowService.getAllBorrowings().getLast().getBorrowId();
+            String[] split = memberId.split("BOR");
+            int number = Integer.valueOf(split[1]);
+            number++;
+            String id = 10>number ? "BOR0000" + number : 100>number ? "BOR000" + number : 1000>number ? "BOR00" + number : 10000> number ? "BOR0" + number : "BOR" + number;
+            txtBorrowId.setText(id);
+        } catch (Exception e) {
+            showDialog("Error", "Error while loading borrow ID...");
+            e.printStackTrace();
+        }
+        
+    }
+
+    private void clearAll(){
+        txtMemberId.clear();
+        txtReturnDate.clear();
+        txtBookId.clear();
+        lblBookDetail.setText("");
+        lblMemberDetail.setText("");
+        observableList.clear();
+        detailDtos.clear();
+    }
+
 
 }

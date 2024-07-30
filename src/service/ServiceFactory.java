@@ -1,6 +1,7 @@
 package service;
 
 import service.impl.BookServiceImpl;
+import service.impl.BorrowServiceImpl;
 import service.impl.CategoryServiceImpl;
 import service.impl.FinesServiceImpl;
 import service.impl.HistoryServiceImpl;
@@ -32,7 +33,7 @@ public class ServiceFactory {
             case BOOK:
                 return new BookServiceImpl();
             case BORROWING:
-                return new BookServiceImpl();
+                return new BorrowServiceImpl();
             case FINE:
                 return new FinesServiceImpl();
             case HISTORY:

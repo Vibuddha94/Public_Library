@@ -11,7 +11,7 @@ public class BorrowDaoImpl implements BorrowDao {
 
     @Override
     public boolean create(BorrowEntity t) throws Exception {
-        return false;
+        return CrudUtil.executeUpdte("INSERT INTO borrowing VALUES(?,?,?)", t.getBorrowId(),t.getBorrowDate(),t.getMemberId());
     }
 
     @Override
@@ -31,7 +31,12 @@ public class BorrowDaoImpl implements BorrowDao {
 
     @Override
     public ArrayList<BorrowEntity> getAll() throws Exception {
-        return null;
+        ResultSet resultSet = CrudUtil.executeQuery("SELECT*FROM borrowing");
+        ArrayList<BorrowEntity> borrowEntities = new ArrayList<>();
+        while (resultSet.next()) {
+            borrowEntities.add(new BorrowEntity(resultSet.getString(1), resultSet.getString(2), resultSet.getString(3)));
+        }
+        return borrowEntities;
     }
     
 }
