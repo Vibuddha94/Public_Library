@@ -16,7 +16,7 @@
             <Font name="System Bold" size="24.0" />
          </font>
       </Label>
-      <TableView fx:id="tblIssue" layoutX="50.0" layoutY="174.0" prefHeight="250.0" prefWidth="650.0" AnchorPane.bottomAnchor="445.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="800.0" AnchorPane.topAnchor="175.0">
+      <TableView fx:id="tblIssue" layoutX="50.0" layoutY="174.0" onMouseClicked="#tblIssueOnMouseClicked" prefHeight="250.0" prefWidth="650.0" AnchorPane.bottomAnchor="445.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="800.0" AnchorPane.topAnchor="175.0">
         <columns>
           <TableColumn fx:id="colIssueBookId" prefWidth="114.0" text="Book ID" />
           <TableColumn fx:id="colIssueCondition" prefWidth="224.0" text="Isuue Conditiion" />
@@ -26,7 +26,7 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
-      <TextField fx:id="txtBorrowId" editable="false" layoutX="50.0" layoutY="99.0" prefHeight="25.0" prefWidth="120.0" promptText="Borrow ID" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="99.0" />
+      <TextField fx:id="txtBorrowId" layoutX="50.0" layoutY="99.0" prefHeight="25.0" prefWidth="120.0" promptText="Borrow ID" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="99.0" />
       <JFXButton fx:id="btnSearch" buttonType="RAISED" layoutX="228.0" layoutY="96.0" onAction="#btnSearchOnAction" prefHeight="25.0" prefWidth="100.0" style="-fx-border-radius: 10; -fx-border-color: #ecf0f1; -fx-background-radius: 10;" text="SEARCH" textFill="#218026" AnchorPane.leftAnchor="200.0" AnchorPane.topAnchor="95.0">
          <font>
             <Font name="System Bold" size="14.0" />
@@ -68,17 +68,17 @@
             <Font name="System Bold" size="16.0" />
          </font>
       </Label>
-      <JFXCheckBox fx:id="cbGood" checkedColor="#f39c12" layoutX="750.0" layoutY="174.0" prefHeight="25.0" prefWidth="150.0" style="-fx-border-radius: 5; -fx-border-color: #ffffff; -fx-background-color: #4cd13776;" text="     GOOD" textFill="#7906bc" unCheckedColor="#fffefe" AnchorPane.topAnchor="175.0">
+      <JFXCheckBox fx:id="cbGood" checkedColor="#f39c12" layoutX="750.0" layoutY="174.0" onAction="#cbGoodOnAction" prefHeight="25.0" prefWidth="150.0" style="-fx-border-radius: 5; -fx-border-color: #ffffff; -fx-background-color: #4cd13776;" text="     GOOD" textFill="#7906bc" unCheckedColor="#fffefe" AnchorPane.topAnchor="175.0">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>
       </JFXCheckBox>
-      <JFXCheckBox fx:id="cbDamaged" checkedColor="#f39c12" layoutX="750.0" layoutY="211.0" prefHeight="25.0" prefWidth="150.0" style="-fx-border-color: #ffffff; -fx-border-radius: 5; -fx-background-color: #4cd13776;" text="     DAMAGED" textFill="#7906bc" unCheckedColor="WHITE" AnchorPane.topAnchor="215.0">
+      <JFXCheckBox fx:id="cbDamaged" checkedColor="#f39c12" layoutX="750.0" layoutY="211.0" onAction="#cbDamagedOnAction" prefHeight="25.0" prefWidth="150.0" style="-fx-border-color: #ffffff; -fx-border-radius: 5; -fx-background-color: #4cd13776;" text="     DAMAGED" textFill="#7906bc" unCheckedColor="WHITE" AnchorPane.topAnchor="215.0">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>
       </JFXCheckBox>
-      <JFXCheckBox fx:id="cbLost" checkedColor="#f39c12" layoutX="750.0" layoutY="255.0" prefHeight="25.0" prefWidth="150.0" style="-fx-border-color: #ffffff; -fx-border-radius: 5; -fx-background-color: #4cd13776;" text="     LOST" textFill="#7906bc" unCheckedColor="#fffefe" AnchorPane.topAnchor="255.0">
+      <JFXCheckBox fx:id="cbLost" checkedColor="#f39c12" layoutX="750.0" layoutY="255.0" onAction="#cbLostOnAction" prefHeight="25.0" prefWidth="150.0" style="-fx-border-color: #ffffff; -fx-border-radius: 5; -fx-background-color: #4cd13776;" text="     LOST" textFill="#7906bc" unCheckedColor="#fffefe" AnchorPane.topAnchor="255.0">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>

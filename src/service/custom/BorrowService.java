@@ -8,7 +8,7 @@ import service.SuperService;
 
 public interface BorrowService extends SuperService {
      String save(BorrowDto borrowDto) throws Exception;
-     String update(BorrowDto borrowDto) throws Exception;
-     ArrayList<Borrow_ReturnDetailDto> getAllDetail() throws Exception;
+     String update(ArrayList<Borrow_ReturnDetailDto> arrayList) throws Exception;
+     ArrayList<Borrow_ReturnDetailDto> getDetail(String borrowId) throws Exception;
      ArrayList<BorrowDto> getAllBorrowings() throws Exception;
 }

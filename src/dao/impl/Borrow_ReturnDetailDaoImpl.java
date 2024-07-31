@@ -16,7 +16,7 @@ public class Borrow_ReturnDetailDaoImpl implements Borrow_ReturnDetailDao {
 
     @Override
     public boolean update(Borrow_ReturnDetailEntity t) throws Exception {
-        return false;
+        return CrudUtil.executeUpdte("UPDATE borrow_returndetail SET Return_Condition = ?, Return_Date = ?, Fine = ?, Fine_Reason = ? WHERE BorrowID = ? AND BookID = ?", t.getReturnCondition(),t.getReturnDate(),t.getFines(),t.getFinedReason(),t.getBorrowId(),t.getBookId());
     }
 
     @Override
@@ -31,7 +31,12 @@ public class Borrow_ReturnDetailDaoImpl implements Borrow_ReturnDetailDao {
 
     @Override
     public ArrayList<Borrow_ReturnDetailEntity> getAll() throws Exception {
-        return null;
+        ResultSet resultSet = CrudUtil.executeQuery("SELECT*FROM borrow_returndetail");
+        ArrayList<Borrow_ReturnDetailEntity> detailEntities = new ArrayList<>();
+        while (resultSet.next()) {
+            detailEntities.add(new Borrow_ReturnDetailEntity(resultSet.getString(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4), resultSet.getString(5), Double.valueOf(resultSet.getString(6)), resultSet.getString(7)));
+        }
+        return detailEntities;
     }
     
 }

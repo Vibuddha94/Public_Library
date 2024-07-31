@@ -29,6 +29,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import security.LoginSecurity;
 import service.ServiceFactory;
@@ -50,12 +51,6 @@ public class ManageBorrowingController implements Initializable {
 
     @FXML
     private JFXButton btnRemove;
-
-    @FXML
-    private JFXButton btnSearchMember;
-
-    @FXML
-    private JFXButton btnbtnSearchBook;
 
     @FXML
     private TableColumn<BorrowTM, String> colBookid;
@@ -101,7 +96,16 @@ public class ManageBorrowingController implements Initializable {
 
     @FXML
     void btnAddOnAction(ActionEvent event) {
-        addToTable(new BorrowTM(txtBookId.getText(), comboBox.getSelectionModel().getSelectedItem(), txtReturnDate.getText()));
+        if (lblBookDetail.getText().equals("Book Not Found or Not Available") || lblBookDetail.getText().equals("")) {
+            showDialog("Error", "Please enter a valid book ID");
+        } else {
+            addToTable(new BorrowTM(txtBookId.getText(), comboBox.getSelectionModel().getSelectedItem(), txtReturnDate.getText()));
+            lblBookDetail.setText("");
+            txtReturnDate.clear();
+            txtBookId.clear();
+            comboBox.setValue(null);
+        }
+        
     }
 
     @FXML
@@ -133,14 +137,15 @@ public class ManageBorrowingController implements Initializable {
         tblBorrow.getItems().remove(tblBorrow.getSelectionModel().getSelectedIndex());
     }
 
+
     @FXML
-    void btnSearchBookOnAction(ActionEvent event) {
+    void txtBookIdOnMouseClicked(MouseEvent event) {
         try {
-            BooksDto booksDto = bookService.get(txtBookId.getText());
-            if (booksDto != null) {
-                lblBookDetail.setText(booksDto.getBookId() + " | " + booksDto.getName());
+            MemberDto memberDto = memberService.get(txtMemberId.getText());
+            if (memberDto != null) {
+                lblMemberDetail.setText(memberDto.getMemberId() + " | " + memberDto.getFirstName() + " " + memberDto.getLastName());
             } else {
-                lblBookDetail.setText("Book Not Found");
+                lblMemberDetail.setText("Member Not Found");
             }
         } catch (Exception e) {
             System.out.println("Error");
@@ -148,13 +153,15 @@ public class ManageBorrowingController implements Initializable {
     }
 
     @FXML
-    void btnSearchMemberOnAction(ActionEvent event) {
+    void txtReturnDateOnMouseClicked(MouseEvent event) {
         try {
-            MemberDto memberDto = memberService.get(txtMemberId.getText());
-            if (memberDto != null) {
-                lblMemberDetail.setText(memberDto.getMemberId() + " | " + memberDto.getFirstName() + " " + memberDto.getLastName());
+            BooksDto booksDto = bookService.get(txtBookId.getText());
+            if (booksDto != null && booksDto.getStatus().equals("Available")) {
+                lblBookDetail.setText(booksDto.getBookId() + " | " + booksDto.getName());
+                comboBox.setValue(booksDto.getCondition());
             } else {
-                lblMemberDetail.setText("Member Not Found");
+                lblBookDetail.setText("Book Not Found or Not Available");
+                comboBox.setValue(null);
             }
         } catch (Exception e) {
             System.out.println("Error");
@@ -185,9 +192,8 @@ public class ManageBorrowingController implements Initializable {
     }
 
     private void loadComboBox() {
-        ObservableList<String> observableList = FXCollections.observableArrayList("Good", "Damaged");
+        ObservableList<String> observableList = FXCollections.observableArrayList("Good", "Damaged","Lost");
         comboBox.setItems(observableList);
-        comboBox.setValue("Good");
     }
 
     private void addToTable(BorrowTM borrowTM) {

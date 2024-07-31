@@ -213,7 +213,7 @@ public class ManageBooksController implements Initializable {
     }
 
     private void loadConditionCBox() {
-        ObservableList<String> categories = FXCollections.observableArrayList("Good", "Damaged");
+        ObservableList<String> categories = FXCollections.observableArrayList("Good", "Damaged","Lost");
         comboBoxCondition.setItems(categories);
     }
 
