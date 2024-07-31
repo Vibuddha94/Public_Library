@@ -16,7 +16,7 @@
             <Font name="System Bold" size="24.0" />
          </font>
       </Label>
-      <TableView fx:id="tblBooks" focusTraversable="false" layoutX="10.0" layoutY="289.0" onMouseClicked="#tblBooksOnMouseClicked" prefHeight="520.0" prefWidth="1400.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="280.0">
+      <TableView fx:id="tblBooks" layoutX="10.0" layoutY="289.0" onMouseClicked="#tblBooksOnMouseClicked" prefHeight="520.0" prefWidth="1400.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="280.0">
         <columns>
           <TableColumn fx:id="colBookId" text="Book ID" />
           <TableColumn fx:id="colCatagory" prefWidth="90.0" text="Category" />

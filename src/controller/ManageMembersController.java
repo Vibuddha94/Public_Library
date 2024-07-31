@@ -110,10 +110,15 @@ public class ManageMembersController implements Initializable {
 
     @FXML
     void btnHistoryOnAction(ActionEvent event) throws IOException {
-        MemberHistoryController.id = txtMemberId.getText();
-        this.root.getChildren().clear();
-        Parent node = FXMLLoader.load(this.getClass().getResource("/view/MemberHistory.fxml"));
-        this.root.getChildren().add(node);
+        if (tblMembet.getSelectionModel().getSelectedIndex()>=0) {
+            MemberHistoryController.id = txtMemberId.getText();
+            this.root.getChildren().clear();
+            Parent node = FXMLLoader.load(this.getClass().getResource("/view/MemberHistory.fxml"));
+            this.root.getChildren().add(node);
+        } else {
+            showDialog("Error", "Please select a member to see the history...");
+        }
+        
     }
 
     @FXML

@@ -116,10 +116,15 @@ public class ManageBooksController implements Initializable {
 
     @FXML
     void btnHistoryOnAction(ActionEvent event) throws IOException {
-        BookHistoryController.bookID = txtBookId.getText();
-        this.root.getChildren().clear();
-        Parent node = FXMLLoader.load(this.getClass().getResource("/view/BookHistory.fxml"));
-        this.root.getChildren().add(node);
+        if (!comboBoxCategory.getSelectionModel().getSelectedItem().equals("All") && comboBoxCondition.getSelectionModel().getSelectedIndex()>=0) {
+            BookHistoryController.bookID = txtBookId.getText();
+            this.root.getChildren().clear();
+            Parent node = FXMLLoader.load(this.getClass().getResource("/view/BookHistory.fxml"));
+            this.root.getChildren().add(node);
+        } else {
+            showDialog("Error", "Please selct a book to see the history...");
+        }
+        
     }
 
     @FXML
