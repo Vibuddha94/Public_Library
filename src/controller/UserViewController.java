@@ -37,20 +37,6 @@ public class UserViewController implements Initializable {
     @FXML
     private AnchorPane root;
 
-    //------------LOGOUT FUNCTION----------------
-    @FXML
-    void btnLogoutOnAction(ActionEvent event) throws IOException {
-        this.root.getChildren().clear();
-        Parent node = FXMLLoader.load(this.getClass().getResource("/view/Login.fxml"));
-        this.root.getChildren().add(node);
-    }
-
-    //------------GO TO THE SELECTED INTERFACE----------------
-    @FXML
-    void btnOkOnAction(ActionEvent event) throws IOException {
-        loadInterface(comboBox.getSelectionModel().getSelectedIndex());
-    }
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         ObservableList<String> list = FXCollections.observableArrayList("Manage Categories", "Manage Books", 
@@ -63,6 +49,20 @@ public class UserViewController implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    //------------LOGOUT FUNCTION----------------
+    @FXML
+    void btnLogoutOnAction(ActionEvent event) throws IOException {
+        this.root.getChildren().clear();
+        Parent node = FXMLLoader.load(this.getClass().getResource("/view/Login.fxml"));
+        this.root.getChildren().add(node);
+    }
+
+    //------------GO TO THE SELECTED INTERFACE----------------
+    @FXML
+    void btnOkOnAction(ActionEvent event) throws IOException {
+        loadInterface(comboBox.getSelectionModel().getSelectedIndex());
     }
 
 

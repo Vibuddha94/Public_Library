@@ -13,12 +13,12 @@
             <Font name="System Bold" size="15.0" />
          </font>
       </Label>
-      <Label fx:id="lblName" layoutX="1134.0" layoutY="20.0" prefHeight="26.0" prefWidth="250.0" text="bedde kankanamge don vibuddha vidarshana" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="20.0">
+      <Label fx:id="lblName" layoutX="1134.0" layoutY="20.0" prefHeight="26.0" prefWidth="250.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="20.0">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>
       </Label>
-      <JFXButton fx:id="btnLogout" buttonType="RAISED" layoutX="1385.0" layoutY="20.0" onAction="#btnLogoutOnAcction" prefHeight="25.0" prefWidth="70.0" style="-fx-background-radius: 10; -fx-border-color: #ecf0f1; -fx-border-radius: 10;" text="Logout" textFill="#009bff" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="17.0">
+      <JFXButton fx:id="btnLogout" buttonType="RAISED" layoutX="1385.0" layoutY="20.0" onAction="#btnLogoutOnAcction" prefHeight="25.0" prefWidth="70.0" style="-fx-background-radius: 10; -fx-border-color: #ecf0f1; -fx-border-radius: 10; -fx-border-width: 2;" text="Logout" textFill="#009bff" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="17.0">
          <font>
             <Font name="System Bold" size="13.0" />
          </font>
@@ -29,7 +29,7 @@
          </font>
       </Label>
       <JFXComboBox fx:id="comboBox" layoutX="487.0" layoutY="495.0" prefHeight="27.0" prefWidth="350.0" promptText="----------------------------------Select--------------------------------" style="-fx-background-color: #ffffff;" AnchorPane.leftAnchor="487.0" AnchorPane.topAnchor="495.0" />
-      <JFXButton fx:id="btnOk" buttonType="RAISED" layoutX="888.0" layoutY="489.0" onAction="#btnOkOnAction" prefHeight="40.0" prefWidth="125.0" style="-fx-border-color: #48708a; -fx-border-radius: 10;" text="OK" textFill="#48708a" AnchorPane.leftAnchor="888.0" AnchorPane.topAnchor="489.0">
+      <JFXButton fx:id="btnOk" buttonType="RAISED" layoutX="888.0" layoutY="489.0" onAction="#btnOkOnAction" prefHeight="40.0" prefWidth="125.0" style="-fx-border-color: #48708a; -fx-border-radius: 10; -fx-border-width: 2;" text="OK" textFill="#48708a" AnchorPane.leftAnchor="888.0" AnchorPane.topAnchor="489.0">
          <font>
             <Font name="System Bold" size="17.0" />
          </font>

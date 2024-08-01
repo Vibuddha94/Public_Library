@@ -92,8 +92,19 @@ public class ManageBorrowingController implements Initializable {
     MemberService memberService = (MemberService) ServiceFactory.getInstance().getService(ServiceType.MEMBER);
     BookService bookService = (BookService) ServiceFactory.getInstance().getService(ServiceType.BOOK);
     ArrayList<Borrow_ReturnDetailDto> detailDtos = new ArrayList<>();
-    ObservableList<BorrowTM> observableList = FXCollections.observableArrayList();
+    ObservableList<BorrowTM> issueList = FXCollections.observableArrayList();
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        colBookid.setCellValueFactory(new PropertyValueFactory<>("bookId"));
+        colIssueCondition.setCellValueFactory(new PropertyValueFactory<>("isuueCondition"));
+        colReturnDate.setCellValueFactory(new PropertyValueFactory<>("returnDate"));
+
+        loadComboBox();
+        loadBorrowId();
+    }
+
+    //------------ADDING BOOKS TO ISSUE LIST AND TABLE----------------
     @FXML
     void btnAddOnAction(ActionEvent event) {
         if (lblBookDetail.getText().equals("Book Not Found or Not Available") || lblBookDetail.getText().equals("")) {
@@ -104,40 +115,46 @@ public class ManageBorrowingController implements Initializable {
             txtReturnDate.clear();
             txtBookId.clear();
             comboBox.setValue(null);
-        }
-        
+        }  
     }
 
+    //------------GO BACK TO HOME PAGE----------------
     @FXML
     void btnHomeOnAction(ActionEvent event) throws IOException, Exception {
         goToHome(LoginSecurity.getInstance().getIsAdmin()); 
     }
 
+    //------------ISSUE THE BOOKS IN THE LIST----------------
     @FXML
     void btnIssueOnAction(ActionEvent event) {
         try {
-            for (BorrowTM borrowTM : observableList) {
+            for (BorrowTM borrowTM : issueList) {
                 detailDtos.add(new Borrow_ReturnDetailDto(txtBorrowId.getText(), borrowTM.getBookId(), borrowTM.getIsuueCondition(), "PENDING", borrowTM.getReturnDate(), 0.0, "PENDING"));
             }
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            String date = sdf.format(new Date());
+            String date = sdf.format(new Date()); //---SET ISSUE DATE AS TODAYS DATE
             BorrowDto borrowDto = new BorrowDto(txtBorrowId.getText(), date, txtMemberId.getText(), detailDtos);
             String response = borrowService.save(borrowDto);
             showDialog("Message", response);
             clearAll();
-            tblBorrow.setItems(observableList);
+            tblBorrow.setItems(issueList);
             loadBorrowId();
         } catch (Exception e) {
             showDialog("Error", "Error while issuing books...");
         }
     }
 
+    //------------REMOVE SELECTED ITEM FROM ISSUING TABLE----------------
     @FXML
     void btnRemoveOnAction(ActionEvent event) {
-        tblBorrow.getItems().remove(tblBorrow.getSelectionModel().getSelectedIndex());
+        if (tblBorrow.getSelectionModel().getSelectedIndex()>=0) {
+            issueList.remove(tblBorrow.getSelectionModel().getSelectedItem()); //REMOVE SELECTED ITEM FROM LIST
+        } else {
+            showDialog("Error", "Select a book to remove...");
+        }
     }
 
-
+    //------------LOAD MEMBER DETAILS WHEN CLICK ON THE BOOK ID TEXT FIELD----------------
     @FXML
     void txtBookIdOnMouseClicked(MouseEvent event) {
         try {
@@ -152,6 +169,7 @@ public class ManageBorrowingController implements Initializable {
         }
     }
 
+    //------------LOAD BOOK DETAILS WHEN CLICK ON THE RETURN DATE TEXT FIELD----------------
     @FXML
     void txtReturnDateOnMouseClicked(MouseEvent event) {
         try {
@@ -181,24 +199,16 @@ public class ManageBorrowingController implements Initializable {
         }
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        colBookid.setCellValueFactory(new PropertyValueFactory<>("bookId"));
-        colIssueCondition.setCellValueFactory(new PropertyValueFactory<>("isuueCondition"));
-        colReturnDate.setCellValueFactory(new PropertyValueFactory<>("returnDate"));
-
-        loadComboBox();
-        loadBorrowId();
-    }
-
+   //------------ADDING DATA TO COMBO BOX BOOK CONDITION----------------
     private void loadComboBox() {
         ObservableList<String> observableList = FXCollections.observableArrayList("Good", "Damaged","Lost");
         comboBox.setItems(observableList);
     }
 
+    //------------ADDING BOOKS TO ISSING TABLE----------------
     private void addToTable(BorrowTM borrowTM) {
-        observableList.add(borrowTM);
-        tblBorrow.setItems(observableList);
+        issueList.add(borrowTM);
+        tblBorrow.setItems(issueList);
     }
 
     // ------------SHOW POP-UP DIALOGS----------------
@@ -211,10 +221,11 @@ public class ManageBorrowingController implements Initializable {
         dialog.showAndWait();
     }
 
+    //------------GENERATE NEXT ID----------------
     private void loadBorrowId() {
         String memberId;
         try {
-            memberId = borrowService.getAllBorrowings().getLast().getBorrowId();
+            memberId = borrowService.getAllBorrowings().getLast().getBorrowId(); //---GETTING LAST ID
             String[] split = memberId.split("BOR");
             int number = Integer.valueOf(split[1]);
             number++;
@@ -227,13 +238,14 @@ public class ManageBorrowingController implements Initializable {
         
     }
 
+    //------------CLEAR FORM----------------
     private void clearAll(){
         txtMemberId.clear();
         txtReturnDate.clear();
         txtBookId.clear();
         lblBookDetail.setText("");
         lblMemberDetail.setText("");
-        observableList.clear();
+        issueList.clear();
         detailDtos.clear();
     }
 

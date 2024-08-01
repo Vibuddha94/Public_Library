@@ -68,13 +68,6 @@ public class BookHistoryController implements Initializable {
     HistoryService historyService = (HistoryService) ServiceFactory.getInstance().getService(ServiceType.HISTORY);
     BookService bookService = (BookService) ServiceFactory.getInstance().getService(ServiceType.BOOK);
 
-    @FXML
-    void btnBackOnAction(ActionEvent event) throws IOException {
-        this.root.getChildren().clear();
-        Parent node = FXMLLoader.load(this.getClass().getResource("/view/ManageBooks.fxml"));
-        this.root.getChildren().add(node);
-    }
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         colMemberId.setCellValueFactory(new PropertyValueFactory<>("memberId"));
@@ -89,6 +82,15 @@ public class BookHistoryController implements Initializable {
         loadBookDetail();
     }
 
+    // ------------GO BACK TO BOOKS PAGE----------------
+    @FXML
+    void btnBackOnAction(ActionEvent event) throws IOException {
+        this.root.getChildren().clear();
+        Parent node = FXMLLoader.load(this.getClass().getResource("/view/ManageBooks.fxml"));
+        this.root.getChildren().add(node);
+    }
+
+    // ------------GET BOOK DETAILS----------------
     private void loadBookDetail() {
         try {
             BooksDto booksDto = bookService.get(bookID);
@@ -98,8 +100,8 @@ public class BookHistoryController implements Initializable {
         }
     }
 
+    // ------------ADD DATA TO THE TABLE----------------
     private void loadTable() {
-
         try {
             ObservableList<HistoryTM> observableList = FXCollections.observableArrayList();
             ArrayList<HistoryTM> historyTMs = historyService.getBookHistory(bookID);
@@ -109,8 +111,7 @@ public class BookHistoryController implements Initializable {
             tblBookHistory.setItems(observableList);
         } catch (Exception e) {
             showDialog("Error", "Error while loading table...");
-        }       
-        
+        }        
     }
 
     // ------------SHOW POP-UP DIALOGS----------------

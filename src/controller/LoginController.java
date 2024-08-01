@@ -52,8 +52,6 @@ public class LoginController {
             showDialog("Error", "Enter correct Password.");
             txtPasword.clear(); 
         }
-
-
     }
 
 

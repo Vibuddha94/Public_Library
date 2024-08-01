@@ -102,76 +102,6 @@ public class ManageBooksController implements Initializable {
     BookService bookService = (BookService) ServiceFactory.getInstance().getService(ServiceType.BOOK);
     CategoryService categoryService = (CategoryService) ServiceFactory.getInstance().getService(ServiceType.CATEGORY);
 
-    @FXML
-    void btnDeleteOnAction(ActionEvent event) {
-        try {
-            String bookId = txtBookId.getText();
-            String response = bookService.delete(bookId);
-            showDialog("Message", response);
-            comboBoxCategory.setValue("All");
-        } catch (Exception e) {
-            showDialog("Error", "Error while deleting book...");
-        }
-    }
-
-    @FXML
-    void btnHistoryOnAction(ActionEvent event) throws IOException {
-        if (!comboBoxCategory.getSelectionModel().getSelectedItem().equals("All") && comboBoxCondition.getSelectionModel().getSelectedIndex()>=0) {
-            BookHistoryController.bookID = txtBookId.getText();
-            this.root.getChildren().clear();
-            Parent node = FXMLLoader.load(this.getClass().getResource("/view/BookHistory.fxml"));
-            this.root.getChildren().add(node);
-        } else {
-            showDialog("Error", "Please selct a book to see the history...");
-        }
-        
-    }
-
-    @FXML
-    void btnHomeOnAction(ActionEvent event) throws IOException, Exception {
-        goToHome(LoginSecurity.getInstance().getIsAdmin());
-    }
-
-    @FXML
-    void btnSaveOnAction(ActionEvent event) {
-        try {
-            BooksDto booksDto = new BooksDto();
-            setValueFrom(booksDto);
-            if (booksDto.getCatCode().equals("ALL")) {
-                showDialog("Error", "Please select a catagory");
-            } else {
-                String response = bookService.save(booksDto);
-                showDialog("Message", response);
-                comboBoxCategory.setValue("All");
-            }
-        } catch (Exception e) {
-            showDialog("Error", "Error while saving book...");
-        }
-    }
-
-    @FXML
-    void btnUpdateOnAction(ActionEvent event) {
-        try {
-            BooksDto booksDto = new BooksDto();
-            setValueFrom(booksDto);
-            String response = bookService.update(booksDto);
-            showDialog("Message", response);
-            comboBoxCategory.setValue("All");
-        } catch (Exception e) {
-            showDialog("Error", "Error while updating book...");
-        }
-    }
-
-    @FXML
-    void tblBooksOnMouseClicked(MouseEvent event) {
-        setValueTo(tblBooks.getSelectionModel().getSelectedItem());
-    }
-
-    @FXML
-    void cboxCategoryOnAction(ActionEvent event) {
-        filterTable(getCatCode(comboBoxCategory.getSelectionModel().getSelectedItem()));
-    }
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         colBookId.setCellValueFactory(new PropertyValueFactory<>("bookId"));
@@ -191,11 +121,84 @@ public class ManageBooksController implements Initializable {
 
     }
 
-    private void loadStatusCBox() {
-        ObservableList<String> status = FXCollections.observableArrayList("Available", "Issued","Lost");
-        comboBoxStatus.setItems(status);
+    // ------------DELETE EXISTING BOOK----------------
+    @FXML
+    void btnDeleteOnAction(ActionEvent event) {
+        try {
+            String bookId = txtBookId.getText();
+            String response = bookService.delete(bookId);
+            showDialog("Message", response);
+            comboBoxCategory.setValue("All");
+        } catch (Exception e) {
+            showDialog("Error", "Error while deleting book...");
+        }
     }
 
+    // ------------CHECK SELECTED BOOK BORROWING HISTORY----------------
+    @FXML
+    void btnHistoryOnAction(ActionEvent event) throws IOException {
+        if (!comboBoxCategory.getSelectionModel().getSelectedItem().equals("All") && comboBoxCondition.getSelectionModel().getSelectedIndex()>=0) { //---CHECKING ANY BOOK IS SELECTED ON THE TABLE
+            BookHistoryController.bookID = txtBookId.getText(); //---PASSING SELLECTED BOOK ID TO BookHistoryController
+            this.root.getChildren().clear();
+            Parent node = FXMLLoader.load(this.getClass().getResource("/view/BookHistory.fxml"));
+            this.root.getChildren().add(node);
+        } else {
+            showDialog("Error", "Please selct a book to see the history...");
+        }
+        
+    }
+
+     // ------------GO BACK TO HOME PAGE----------------
+    @FXML
+    void btnHomeOnAction(ActionEvent event) throws IOException, Exception {
+        goToHome(LoginSecurity.getInstance().getIsAdmin());
+    }
+
+     // ------------ADD A NEW BOOK TO DATABASE----------------
+    @FXML
+    void btnSaveOnAction(ActionEvent event) {
+        try {
+            BooksDto booksDto = new BooksDto();
+            setValueFrom(booksDto);
+            if (booksDto.getCatCode().equals("ALL")) {
+                showDialog("Error", "Please select a catagory");
+            } else {
+                String response = bookService.save(booksDto);
+                showDialog("Message", response);
+                comboBoxCategory.setValue("All");
+            }
+        } catch (Exception e) {
+            showDialog("Error", "Error while saving book...");
+        }
+    }
+
+     // ------------UPDATING EXISTING BOOK DETAIL----------------
+    @FXML
+    void btnUpdateOnAction(ActionEvent event) {
+        try {
+            BooksDto booksDto = new BooksDto();
+            setValueFrom(booksDto);
+            String response = bookService.update(booksDto);
+            showDialog("Message", response);
+            comboBoxCategory.setValue("All");
+        } catch (Exception e) {
+            showDialog("Error", "Error while updating book...");
+        }
+    }
+
+     // ------------GET DATA FROM TABLE SELECTED ROW----------------
+    @FXML
+    void tblBooksOnMouseClicked(MouseEvent event) {
+        setValueTo(tblBooks.getSelectionModel().getSelectedItem());
+    }
+
+     // ------------FILTER TABLE ACCORDING TO SELECTED CATAGORY----------------
+    @FXML
+    void cboxCategoryOnAction(ActionEvent event) {
+        filterTable(getCatCode(comboBoxCategory.getSelectionModel().getSelectedItem()));
+    }
+
+    // ------------ADD DATA TO TABLE----------------
     private void loadTable() {
         try {
             ObservableList<BooksTM> observableList = FXCollections.observableArrayList();
@@ -212,11 +215,19 @@ public class ManageBooksController implements Initializable {
         }
     }
 
+     // ------------ADD DATA TO STATUS COMBO BOX----------------
+     private void loadStatusCBox() {
+        ObservableList<String> status = FXCollections.observableArrayList("Available", "Issued","Lost");
+        comboBoxStatus.setItems(status);
+    }
+
+    // ------------ADD DATA TO CONDITION COMBO BOX----------------
     private void loadConditionCBox() {
         ObservableList<String> categories = FXCollections.observableArrayList("Good", "Damaged","Lost");
         comboBoxCondition.setItems(categories);
     }
 
+    // ------------ADD DATA TO CATAGORY COMBO BOX----------------
     private void loadCategoryCBox() {
         try {
             ObservableList<String> categories = FXCollections.observableArrayList();
@@ -275,6 +286,7 @@ public class ManageBooksController implements Initializable {
         dto.setPrice(Double.valueOf(txtPrice.getText()));
     }
 
+    // ------------GET THE CATEGORY CODE FROM DATABASE----------------
     private String getCatCode(String selectedItem) {
         try {
             ArrayList<CategoryDto> categoryDtos = categoryService.getAll();
@@ -290,6 +302,7 @@ public class ManageBooksController implements Initializable {
         }
     }
 
+    // ------------GET THE CATEGORY NAME FROM DATABASE WHEN ITEM IS SELECTED----------------
     private String getCatName(String catCode) {
         try {
             ArrayList<CategoryDto> categoryDtos = categoryService.getAll();
@@ -305,6 +318,7 @@ public class ManageBooksController implements Initializable {
         }
     }
 
+    // ------------FILTER TABLE----------------
     private void filterTable(String category) { 
         try {
             if (category.equals("ALL")) {
@@ -328,6 +342,7 @@ public class ManageBooksController implements Initializable {
         }
     }
 
+    // ------------GENERATE NEW BOOK ID----------------
     private void loadBookId(String bookId) {
         if (bookId == null) {
             txtBookId.setText("B00001");
@@ -340,6 +355,7 @@ public class ManageBooksController implements Initializable {
         }
     }
 
+    // ------------CLEAR FORM----------------
     private void clearForm(){
         txtName.clear();
         txtAuthor.clear();

@@ -90,11 +90,27 @@ public class ManageMembersController implements Initializable {
 
     MemberService memberService = (MemberService) ServiceFactory.getInstance().getService(ServiceType.MEMBER);
 
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        colMemberId.setCellValueFactory(new PropertyValueFactory<>("memberId"));
+        colFirstName.setCellValueFactory(new PropertyValueFactory<>("firstName"));
+        colLastName.setCellValueFactory(new PropertyValueFactory<>("lastName"));
+        colDob.setCellValueFactory(new PropertyValueFactory<>("dob"));
+        colAddress.setCellValueFactory(new PropertyValueFactory<>("address"));
+        colContactNumber.setCellValueFactory(new PropertyValueFactory<>("contNumber"));
+
+        loadTable();
+    }
+
+
+    //------------GO BACK TO HOME PAGE----------------
     @FXML
     void bbtnHomeOnAction(ActionEvent event) throws IOException, Exception {
         goToHome(LoginSecurity.getInstance().getIsAdmin()); 
     }
 
+    //------------DELETE EXISTING MEMBER----------------
     @FXML
     void btnDeeleteOnAction(ActionEvent event) {
         try {
@@ -108,10 +124,11 @@ public class ManageMembersController implements Initializable {
         }
     }
 
+    //------------CHECK SELECTED MEMBER'S BORROWING HISTORY----------------
     @FXML
     void btnHistoryOnAction(ActionEvent event) throws IOException {
-        if (tblMembet.getSelectionModel().getSelectedIndex()>=0) {
-            MemberHistoryController.id = txtMemberId.getText();
+        if (tblMembet.getSelectionModel().getSelectedIndex()>=0) { //---CHECKING ANY ITEM HAS BEEN SELECTED ON THE TABLE
+            MemberHistoryController.id = txtMemberId.getText(); //---PASSING SELECTED MEMBER'S ID TO "MemberHistoryController"
             this.root.getChildren().clear();
             Parent node = FXMLLoader.load(this.getClass().getResource("/view/MemberHistory.fxml"));
             this.root.getChildren().add(node);
@@ -121,6 +138,7 @@ public class ManageMembersController implements Initializable {
         
     }
 
+    //------------SAVE A NEW MEMBER IN THE SYSTEM----------------
     @FXML
     void btnSaveOnAction(ActionEvent event) {
         try {
@@ -135,6 +153,7 @@ public class ManageMembersController implements Initializable {
         }
     }
 
+    //------------UPDATE EXISTING MEMBER'S DETAILS----------------
     @FXML
     void btnUpdateOnAction(ActionEvent event) {
         try {
@@ -149,30 +168,20 @@ public class ManageMembersController implements Initializable {
         }
     }
 
+    //------------GET THE DETAILS OF SELECTED MEMBER FROM TABLE----------------
     @FXML
     void tblMemberOnMouseClocked(MouseEvent event) {
         setValueFromTM(tblMembet.getSelectionModel().getSelectedItem());
     }
 
+    //------------TO REFRESH THE PAGE AFTER SELECTING A MEMBER FROM THE TABLE. ID IS NOT EDITABLE. SO OTHERWISE WON'T BE ABLE TO REMOVE THE EXIXTING ID  AND ENTER NEW ONE----------------
     @FXML
     void txtMemberIdOnMouseClicked(MouseEvent event) {
         clearForm();
         loadTable();
     }
 
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        colMemberId.setCellValueFactory(new PropertyValueFactory<>("memberId"));
-        colFirstName.setCellValueFactory(new PropertyValueFactory<>("firstName"));
-        colLastName.setCellValueFactory(new PropertyValueFactory<>("lastName"));
-        colDob.setCellValueFactory(new PropertyValueFactory<>("dob"));
-        colAddress.setCellValueFactory(new PropertyValueFactory<>("address"));
-        colContactNumber.setCellValueFactory(new PropertyValueFactory<>("contNumber"));
-
-        loadTable();
-    }
-
+    //------------GETTING MEMBERS DATA FROM DATABASE----------------
     private void loadTable() {
         try {
             ObservableList<MembersTM> observableList = FXCollections.observableArrayList();
@@ -181,7 +190,7 @@ public class ManageMembersController implements Initializable {
                 MembersTM tm = new MembersTM(memberDto.getMemberId(), memberDto.getFirstName(), memberDto.getLastName(), memberDto.getDob(), memberDto.getAddress(), memberDto.getContNumber());
                 observableList.add(tm); 
             }
-            loadMemberId(memberDtos.get(memberDtos.size() - 1).getMemberId());
+            loadMemberId(memberDtos.getLast().getMemberId()); //---GETTING LAST ID AND GENERATE THE NEXT
             tblMembet.setItems(observableList);
         } catch (Exception e) {
             showDialog("Error", "Error while loading table...");
@@ -189,6 +198,7 @@ public class ManageMembersController implements Initializable {
         }        
     }
 
+    //------------GENERATE NEXT ID----------------
     private void loadMemberId(String memberId) {
             String[] split = memberId.split("MEM");
             int number = Integer.valueOf(split[1]);
@@ -241,6 +251,7 @@ public class ManageMembersController implements Initializable {
         }
     }
 
+    //------------CLEAR FORM----------------
     private void clearForm(){
         txtMemberId.clear();
         txtFirstName.clear();

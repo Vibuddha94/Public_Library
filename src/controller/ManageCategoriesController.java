@@ -63,6 +63,13 @@ public class ManageCategoriesController implements Initializable {
 
     CategoryService categoryService = (CategoryService) ServiceFactory.getInstance().getService(ServiceType.CATEGORY);
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        colCatCode.setCellValueFactory(new PropertyValueFactory<>("id"));
+        colCatName.setCellValueFactory(new PropertyValueFactory<>("name"));
+
+        loadTable();
+    }
 
     // ------------DELETE A CATEGORY----------------
     @FXML
@@ -78,6 +85,7 @@ public class ManageCategoriesController implements Initializable {
         }
     }
 
+    // ------------GO BACK TO HOME PAGE----------------
     @FXML
     void btnHomeOnAction(ActionEvent event) throws IOException, Exception {
         goToHome(LoginSecurity.getInstance().getIsAdmin()); 
@@ -111,21 +119,12 @@ public class ManageCategoriesController implements Initializable {
         }
     }
 
-
     // ------------LOAD THE DATA FROM CLICKED ROW----------------
     @FXML
     void tblCategoryOnMouseClicked(MouseEvent event) {
         CatTM catTM = tblCategory.getSelectionModel().getSelectedItem();
         txtCatCode.setText(catTM.getId());
         txtCategory.setText(catTM.getName());
-    }
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        colCatCode.setCellValueFactory(new PropertyValueFactory<>("id"));
-        colCatName.setCellValueFactory(new PropertyValueFactory<>("name"));
-
-        loadTable();
     }
 
     // ------------INSERT DATA TO TE TABLE FROM DATABASE----------------
@@ -137,7 +136,6 @@ public class ManageCategoriesController implements Initializable {
                 CatTM tm = new CatTM(dto.getId(), dto.getName());
                 observableList.add(tm);
             }
-
             tblCategory.setItems(observableList);
         } catch (Exception e) {
             showDialog("Error", "Error while loading table...");

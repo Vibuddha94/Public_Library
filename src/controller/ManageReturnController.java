@@ -93,42 +93,79 @@ public class ManageReturnController implements Initializable{
     @FXML
     private TextField txtBorrowId;
 
-    BorrowService borrowService = (BorrowService) ServiceFactory.getInstance().getService(ServiceType.BORROWING);
-    FinesService finesService = (FinesService) ServiceFactory.getInstance().getService(ServiceType.FINE);
-    BookService bookService = (BookService) ServiceFactory.getInstance().getService(ServiceType.BOOK);
+    private BorrowService borrowService = (BorrowService) ServiceFactory.getInstance().getService(ServiceType.BORROWING);
+    private FinesService finesService = (FinesService) ServiceFactory.getInstance().getService(ServiceType.FINE);
+    private BookService bookService = (BookService) ServiceFactory.getInstance().getService(ServiceType.BOOK);
 
     private ObservableList<ReturnTM> returnList = FXCollections.observableArrayList();
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        colIssueBookId.setCellValueFactory(new PropertyValueFactory<>("bookId"));
+        colIssueCondition.setCellValueFactory(new PropertyValueFactory<>("isuueCondition"));
+        colRetuenDate.setCellValueFactory(new PropertyValueFactory<>("returnDate"));
+
+        colReturnBookId.setCellValueFactory(new PropertyValueFactory<>("bookId"));
+        colReturnCondition.setCellValueFactory(new PropertyValueFactory<>("returnCondition"));
+        colFines.setCellValueFactory(new PropertyValueFactory<>("fines"));
+        colFinedReason.setCellValueFactory(new PropertyValueFactory<>("finedReason"));
+
+    }
+
+    //------------WHEN CLICK ON THE TAVLE UNSELECT THE CHECK BOXES----------------
     @FXML
     void tblIssueOnMouseClicked(MouseEvent event) {
         setUnselected();
     }
     
+    //------------WHEN SELECT "DAMAGED" UNSELECT THE OTHER TWO----------------
     @FXML
     void cbDamagedOnAction(ActionEvent event) {
-        cbGood.setSelected(false);
-        cbLost.setSelected(false);
+        if (tblIssue.getSelectionModel().getSelectedIndex()>=0) { //---CHECKING IF ANYTHING SELECTED ON THE TABLE
+            cbGood.setSelected(false);
+            cbLost.setSelected(false);
+        } else {
+           showDialog("Error", "Select a book..."); 
+           setUnselected();
+        }
+        
     }
 
+    //------------WHEN SELECT "GOOD" UNSELECT THE OTHER TWO----------------
     @FXML
     void cbGoodOnAction(ActionEvent event) {
-        cbDamaged.setSelected(false);
-        cbLost.setSelected(false);
-        if (tblIssue.getSelectionModel().getSelectedItem().getIsuueCondition().equals("Damaged")) {
-            showDialog("Error", "Issued a damaged book. Please check again...");
-            cbGood.setSelected(false);
+        if (tblIssue.getSelectionModel().getSelectedIndex()>=0) { //---CHECKING IF ANYTHING SELECTED ON THE TABLE
+            cbDamaged.setSelected(false);
+            cbLost.setSelected(false);
+            if (tblIssue.getSelectionModel().getSelectedItem().getIsuueCondition().equals("Damaged")) { //---TO PREVENT CHANGE BOOK CONDITION FROM "DAMAGED",
+                showDialog("Error", "Issued a damaged book. Please check again...");               //TO "GOOD" WHILE RETURNING
+                cbGood.setSelected(false);
+            }
+        } else {
+           showDialog("Error", "Select a book..."); 
+           setUnselected();
         }
+        
     }
 
+
+    //------------WHEN SELECT "LOST" UNSELECT THE OTHER TWO----------------
     @FXML
     void cbLostOnAction(ActionEvent event) {
-        cbDamaged.setSelected(false);
-        cbGood.setSelected(false);
+        if (tblIssue.getSelectionModel().getSelectedIndex()>=0) { //---CHECKING IF ANYTHING SELECTED ON THE TABLE
+            cbDamaged.setSelected(false);
+            cbGood.setSelected(false);
+        } else {
+           showDialog("Error", "Select a book..."); 
+           setUnselected();
+        }
+        
     }
 
+    //------------CHECK IN THE BOOKS TO RETURN TABLE----------------
     @FXML
     void btnCheckedOnAction(ActionEvent event) throws ParseException {
-        if (cbGood.isSelected() || cbDamaged.isSelected() || cbLost.isSelected()) {
+        if (cbGood.isSelected() || cbDamaged.isSelected() || cbLost.isSelected()) {  //---CHECKING IF THE RETURN CONDITION IS SELECTED
             BorrowTM borrowTM = tblIssue.getSelectionModel().getSelectedItem();
             Double fines = getFines(borrowTM);
             String finedReson = getFinedReason(borrowTM);
@@ -141,29 +178,38 @@ public class ManageReturnController implements Initializable{
         }
     }
 
+    //------------GO BACK TO HOME PAGE----------------
     @FXML
     void btnHomeOnAction(ActionEvent event) throws IOException, Exception {
-        goToHome(LoginSecurity.getInstance().getIsAdmin()); 
+        goToHome(LoginSecurity.getInstance().getIsAdmin()); //---CHECKING THE LOGIN DETAIL
     }
 
+    //------------UPDATE THE DATABASE AND RETURN BOOKS----------------
     @FXML
     void btnReturnOnAction(ActionEvent event) {
         try {
           ArrayList<Borrow_ReturnDetailDto> detailDtos = new ArrayList<>();
           SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-          String returnDate = sdf.format(new Date());
+          String returnDate = sdf.format(new Date()); //---GETTING TODAYS DATE AS ACTUAL RETURN DATE
           for (ReturnTM returnTM : returnList) {
             detailDtos.add(new Borrow_ReturnDetailDto(txtBorrowId.getText(), returnTM.getBookId(), null, returnTM.getReturnCondition(), returnDate, returnTM.getFines(), returnTM.getFinedReason()));
           }  
           String response = borrowService.update(detailDtos);
-          showDialog("Message", response);
-          returnList.clear();
-          txtBorrowId.clear();
+          if (response.equals("Success")) {
+            String summery = getSummery();
+            showDialog("Message", summery);
+            returnList.clear();
+            txtBorrowId.clear();
+          } else {
+            showDialog("Message", response);
+          }
+          
         } catch (Exception e) {
             showDialog("Error", "Error while returning books...");
         }
     }
 
+    //------------SEARCHH THE BORROW ID----------------
     @FXML
     void btnSearchOnAction(ActionEvent event) {
         loadTableBorrow(txtBorrowId.getText());
@@ -182,36 +228,32 @@ public class ManageReturnController implements Initializable{
         }
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        colIssueBookId.setCellValueFactory(new PropertyValueFactory<>("bookId"));
-        colIssueCondition.setCellValueFactory(new PropertyValueFactory<>("isuueCondition"));
-        colRetuenDate.setCellValueFactory(new PropertyValueFactory<>("returnDate"));
-
-        colReturnBookId.setCellValueFactory(new PropertyValueFactory<>("bookId"));
-        colReturnCondition.setCellValueFactory(new PropertyValueFactory<>("returnCondition"));
-        colFines.setCellValueFactory(new PropertyValueFactory<>("fines"));
-        colFinedReason.setCellValueFactory(new PropertyValueFactory<>("finedReason"));
-
-    }
-
+    //------------CHECK THE ID AND LOAD THE ISSUED BOOKS CONTAINING IIN THE ID----------------
     private void loadTableBorrow(String borrowId){
         try {
             ArrayList<Borrow_ReturnDetailDto> detailDtos = borrowService.getDetail(borrowId);
-            if (detailDtos == null) {
+            if (detailDtos == null) {  //---CHECK THE VALIDITY OF ID
                 showDialog("Error", "Plese enter a valid ID...");
             } else {
                 ObservableList<BorrowTM> observableList = FXCollections.observableArrayList();
                 for (Borrow_ReturnDetailDto detailDto : detailDtos) {
-                    observableList.add(new BorrowTM(detailDto.getBookId(), detailDto.getBorrowCondition(), detailDto.getReturnDate()));
+                    if (detailDto.getReturnCondition().equals("PENDING")) { //---CHECKING IF THE BOOKS HAS BEEN ALREADY RETURNED
+                        observableList.add(new BorrowTM(detailDto.getBookId(), detailDto.getBorrowCondition(), detailDto.getReturnDate()));
+                    } 
                 }
-                tblIssue.setItems(observableList);
+                if (observableList.isEmpty()) { //---PREVENT RETURN SAME BOOKS TWICE.
+                    showDialog("Error", "All the books in this ID has been returned. \nPlease check again...");
+                } else {
+                    tblIssue.setItems(observableList);
+                }
+                
             }
         } catch (Exception e) {
             showDialog("Error", "Error while loading table...");
         }        
     }
 
+    //------------ADDING BOOKS TO THE RETURN TABLE----------------
     private void addToRetunTable(ReturnTM returnTM){
         returnList.add(returnTM);
         tblReturn.setItems(returnList);
@@ -227,20 +269,22 @@ public class ManageReturnController implements Initializable{
         dialog.showAndWait();
     }
 
+    //------------CALCULATING FINES----------------
     private Double getFines(BorrowTM borrowTM) {
         try {
             Double fines = 0.0;
-            
-            if (cbLost.isSelected()) {
+            //====("LOST" AND "DAMAGED" FINES DEPENDING ON THE PRICE OF THE BOOK)===
+
+            if (cbLost.isSelected()) { //---IF THE BOOK IS LOST, NOT ADDING ANY OTHER FINES
                 Double bookPrice = bookService.get(borrowTM.getBookId()).getPrice();
-                Double factor = finesService.get(1).getLost();
+                Double factor = finesService.get(1).getLost();  //---FINE IS SAVED AS A MULTIPLICATION FACTOR
                 fines = bookPrice*factor;
                 return fines;
             } else {
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                 Date day1 = sdf.parse(borrowTM.getReturnDate());
                 Date day2 = new Date();
-                Long dif = TimeUnit.DAYS.convert(day2.getTime()-day1.getTime(),TimeUnit.MILLISECONDS);
+                Long dif = TimeUnit.DAYS.convert(day2.getTime()-day1.getTime(),TimeUnit.MILLISECONDS); //---CALCULATING DATE DIFFERENCE BETWEEN TODAYS DATE AND RETURN DATE GIVEN WHILE BORROWING
                 if (dif>0) {
                     Double latePerDay = finesService.get(1).getLate();
                     fines += latePerDay*dif;
@@ -261,8 +305,9 @@ public class ManageReturnController implements Initializable{
         
     }
 
+    //------------GETTING REASONS FOR THE FINES----------------
     private String getFinedReason(BorrowTM borrowTM) throws ParseException {
-        String reason = "No Fines";
+        String reason = "No Fine";
         
         if (cbLost.isSelected()) {
             return "Lost";
@@ -285,6 +330,7 @@ public class ManageReturnController implements Initializable{
         }
     }
 
+    //------------GETTING THE BOOK RETURNING CONDITION FROM CHECK BOXES----------------
     private String getCondtion() {
         
         if (cbDamaged.isSelected()) {
@@ -296,6 +342,24 @@ public class ManageReturnController implements Initializable{
         }
     }
 
+    //------------GET RETURN SUMMERY----------------
+    private String getSummery() {
+        double total = 0.0;
+        int count = returnList.size();
+        for (ReturnTM returnTM : returnList) {
+            total += returnTM.getFines();
+        }
+       
+        String one = "Total books returned  :      " + count;
+        String two = "\nTotal fines to pay    :      " + total;
+        
+
+        String summery = one + two;
+        return summery;
+        
+    }
+
+    //------------SET UNSELECTED THE CHECK BOXES----------------
     private void setUnselected() {
         cbGood.setSelected(false);
         cbLost.setSelected(false);

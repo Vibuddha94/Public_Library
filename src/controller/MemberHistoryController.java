@@ -68,14 +68,6 @@ public class MemberHistoryController implements Initializable {
     HistoryService historyService = (HistoryService) ServiceFactory.getInstance().getService(ServiceType.HISTORY);
     MemberService memberService = (MemberService) ServiceFactory.getInstance().getService(ServiceType.MEMBER);
     
-
-    @FXML
-    void btnBackOnAction(ActionEvent event) throws IOException {
-        this.root.getChildren().clear();
-        Parent node = FXMLLoader.load(this.getClass().getResource("/view/ManageMembers.fxml"));
-        this.root.getChildren().add(node);
-    }
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         colBookId.setCellValueFactory(new PropertyValueFactory<>("bookId"));
@@ -90,6 +82,15 @@ public class MemberHistoryController implements Initializable {
         loadMemberDetail();
     }
 
+    // ------------GO BACK TO MEMBERS PAGE----------------
+    @FXML
+    void btnBackOnAction(ActionEvent event) throws IOException {
+        this.root.getChildren().clear();
+        Parent node = FXMLLoader.load(this.getClass().getResource("/view/ManageMembers.fxml"));
+        this.root.getChildren().add(node);
+    }
+
+    // ------------DISPLAY THE MEMBER DETAILS ON A LABEL----------------
     private void loadMemberDetail() {
         try {
             MemberDto memberDto = memberService.get(id);
@@ -99,6 +100,7 @@ public class MemberHistoryController implements Initializable {
         }
     }
 
+    // ------------LOAD THE DATA TO THE TABLE----------------
     private void loadTable() {
         try {
             ObservableList<HistoryTM> observableList = FXCollections.observableArrayList();

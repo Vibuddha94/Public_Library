@@ -11,7 +11,7 @@
 
 <AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="850.0" prefWidth="1500.0" styleClass="root" stylesheets="@../cssStyle/Background.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ManageReturnController">
    <children>
-      <Label alignment="CENTER" layoutX="14.0" layoutY="14.0" prefHeight="45.0" prefWidth="238.0" style="-fx-background-color: #fbc5316e;" text="Return Books" textFill="#0c0c69" underline="true">
+      <Label alignment="CENTER" layoutX="14.0" layoutY="14.0" prefHeight="45.0" prefWidth="238.0" style="-fx-background-color: #fbc5316e; -fx-background-radius: 10; -fx-border-color: #2c3e50; -fx-border-radius: 10; -fx-border-width: 2;" text="Return Books" textFill="#0c0c69" AnchorPane.leftAnchor="50.0">
          <font>
             <Font name="System Bold" size="24.0" />
          </font>
@@ -27,7 +27,7 @@
          </columnResizePolicy>
       </TableView>
       <TextField fx:id="txtBorrowId" layoutX="50.0" layoutY="99.0" prefHeight="25.0" prefWidth="120.0" promptText="Borrow ID" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="99.0" />
-      <JFXButton fx:id="btnSearch" buttonType="RAISED" layoutX="228.0" layoutY="96.0" onAction="#btnSearchOnAction" prefHeight="25.0" prefWidth="100.0" style="-fx-border-radius: 10; -fx-border-color: #ecf0f1; -fx-background-radius: 10;" text="SEARCH" textFill="#218026" AnchorPane.leftAnchor="200.0" AnchorPane.topAnchor="95.0">
+      <JFXButton fx:id="btnSearch" buttonType="RAISED" layoutX="228.0" layoutY="96.0" onAction="#btnSearchOnAction" prefHeight="25.0" prefWidth="100.0" style="-fx-border-radius: 10; -fx-border-color: #ecf0f1; -fx-background-radius: 10; -fx-border-width: 2;" text="SEARCH" textFill="#218026" AnchorPane.leftAnchor="200.0" AnchorPane.topAnchor="95.0">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
@@ -37,12 +37,12 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </JFXButton>
-      <JFXButton fx:id="btnHome" buttonType="RAISED" layoutX="1350.0" layoutY="43.0" onAction="#btnHomeOnAction" prefHeight="25.0" prefWidth="100.0" style="-fx-border-radius: 10; -fx-border-color: #ecf0f1; -fx-background-radius: 10;" text="HOME" textFill="#b92c85" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="43.0">
+      <JFXButton fx:id="btnHome" buttonType="RAISED" layoutX="1350.0" layoutY="43.0" onAction="#btnHomeOnAction" prefHeight="25.0" prefWidth="100.0" style="-fx-border-radius: 10; -fx-border-color: #ecf0f1; -fx-background-radius: 10; -fx-border-width: 2;" text="HOME" textFill="#b92c85" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="43.0">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
       </JFXButton>
-      <JFXButton fx:id="btnReturn" buttonType="RAISED" layoutX="1350.0" layoutY="767.0" onAction="#btnReturnOnAction" prefHeight="32.0" prefWidth="100.0" style="-fx-border-radius: 10; -fx-border-color: #ecf0f1; -fx-background-radius: 10;" text="RETURN" textFill="#001fff" AnchorPane.bottomAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="767.0">
+      <JFXButton fx:id="btnReturn" buttonType="RAISED" layoutX="1350.0" layoutY="767.0" onAction="#btnReturnOnAction" prefHeight="32.0" prefWidth="100.0" style="-fx-border-radius: 10; -fx-border-color: #ecf0f1; -fx-background-radius: 10; -fx-border-width: 2;" text="RETURN" textFill="#001fff" AnchorPane.bottomAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="767.0">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
@@ -68,17 +68,17 @@
             <Font name="System Bold" size="16.0" />
          </font>
       </Label>
-      <JFXCheckBox fx:id="cbGood" checkedColor="#f39c12" layoutX="750.0" layoutY="174.0" onAction="#cbGoodOnAction" prefHeight="25.0" prefWidth="150.0" style="-fx-border-radius: 5; -fx-border-color: #ffffff; -fx-background-color: #4cd13776;" text="     GOOD" textFill="#7906bc" unCheckedColor="#fffefe" AnchorPane.topAnchor="175.0">
+      <JFXCheckBox fx:id="cbGood" checkedColor="#f39c12" layoutX="750.0" layoutY="174.0" onAction="#cbGoodOnAction" prefHeight="25.0" prefWidth="150.0" style="-fx-border-radius: 5; -fx-border-color: #ffffff; -fx-background-color: #4cd13776; -fx-border-width: 2;" text="     GOOD" textFill="#7906bc" unCheckedColor="#fffefe" AnchorPane.topAnchor="175.0">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>
       </JFXCheckBox>
-      <JFXCheckBox fx:id="cbDamaged" checkedColor="#f39c12" layoutX="750.0" layoutY="211.0" onAction="#cbDamagedOnAction" prefHeight="25.0" prefWidth="150.0" style="-fx-border-color: #ffffff; -fx-border-radius: 5; -fx-background-color: #4cd13776;" text="     DAMAGED" textFill="#7906bc" unCheckedColor="WHITE" AnchorPane.topAnchor="215.0">
+      <JFXCheckBox fx:id="cbDamaged" checkedColor="#f39c12" layoutX="750.0" layoutY="211.0" onAction="#cbDamagedOnAction" prefHeight="25.0" prefWidth="150.0" style="-fx-border-color: #ffffff; -fx-border-radius: 5; -fx-background-color: #4cd13776; -fx-border-width: 2;" text="     DAMAGED" textFill="#7906bc" unCheckedColor="WHITE" AnchorPane.topAnchor="215.0">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>
       </JFXCheckBox>
-      <JFXCheckBox fx:id="cbLost" checkedColor="#f39c12" layoutX="750.0" layoutY="255.0" onAction="#cbLostOnAction" prefHeight="25.0" prefWidth="150.0" style="-fx-border-color: #ffffff; -fx-border-radius: 5; -fx-background-color: #4cd13776;" text="     LOST" textFill="#7906bc" unCheckedColor="#fffefe" AnchorPane.topAnchor="255.0">
+      <JFXCheckBox fx:id="cbLost" checkedColor="#f39c12" layoutX="750.0" layoutY="255.0" onAction="#cbLostOnAction" prefHeight="25.0" prefWidth="150.0" style="-fx-border-color: #ffffff; -fx-border-radius: 5; -fx-background-color: #4cd13776; -fx-border-width: 2;" text="     LOST" textFill="#7906bc" unCheckedColor="#fffefe" AnchorPane.topAnchor="255.0">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>

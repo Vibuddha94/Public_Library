@@ -61,34 +61,6 @@ public class UpdateFinesController implements Initializable {
 
     FinesService finesService = (FinesService) ServiceFactory.getInstance().getService(ServiceType.FINE);
 
-    @FXML
-    void btnHomeOnAction(ActionEvent event) throws IOException {
-        this.root.getChildren().clear();
-        Parent node = FXMLLoader.load(this.getClass().getResource("/view/AdminView.fxml"));
-        this.root.getChildren().add(node);
-    }
-
-    @FXML
-    void btnUpdateOnAction(ActionEvent event) {
-       try {
-        FinesDto finesDto = new FinesDto(1, Double.valueOf(txtLate.getText()), Double.valueOf(txtDamage.getText()), Double.valueOf(txtLost.getText()));
-        String response = finesService.updateUser(finesDto);
-        showDialog("Message", response);
-        loadTable();
-        clearForm();
-       } catch (Exception e) {
-        showDialog("Error", "Error while updating fines...");
-       }
-    }
-
-    @FXML
-    void tblFineClickOnAction(MouseEvent event) {
-        FinesTM finesTM = tblFines.getSelectionModel().getSelectedItem();
-        txtLost.setText(finesTM.getLost().toString());
-        txtLate.setText(finesTM.getLate().toString());
-        txtDamage.setText(finesTM.getDamage().toString());
-    }
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         colLate.setCellValueFactory(new PropertyValueFactory<>("late"));
@@ -99,6 +71,39 @@ public class UpdateFinesController implements Initializable {
         
     }
 
+    // ------------GO BACK TO HOME PAGE----------------
+    @FXML
+    void btnHomeOnAction(ActionEvent event) throws IOException {
+        this.root.getChildren().clear();
+        Parent node = FXMLLoader.load(this.getClass().getResource("/view/AdminView.fxml"));
+        this.root.getChildren().add(node);
+    }
+
+    // ------------UPDATING FINES----------------
+    @FXML
+    void btnUpdateOnAction(ActionEvent event) {
+       try {
+        FinesDto finesDto = new FinesDto(1, Double.valueOf(txtLate.getText()), Double.valueOf(txtDamage.getText()), Double.valueOf(txtLost.getText()));
+        String response = finesService.updateUser(finesDto);
+        showDialog("Message", response);
+        loadTable();
+        clearForm();
+       } catch (Exception e) {
+        showDialog("Error", "Error while updating fines...");
+        e.printStackTrace();
+       }
+    }
+
+    // ------------GETTING THE DATA FROM TABLE TO TEXT FIELDS----------------
+    @FXML
+    void tblFineClickOnAction(MouseEvent event) {
+        FinesTM finesTM = tblFines.getSelectionModel().getSelectedItem();
+        txtLost.setText(finesTM.getLost().toString());
+        txtLate.setText(finesTM.getLate().toString());
+        txtDamage.setText(finesTM.getDamage().toString());
+    }
+
+    // ------------LOAD THE DATA TO THE TABLE----------------
     private void loadTable() {
         try {
             FinesDto finesDto = finesService.get(1);
@@ -122,6 +127,7 @@ public class UpdateFinesController implements Initializable {
         dialog.showAndWait();
     }
 
+    // ------------CLEAR FORM----------------
     private void clearForm(){
         txtDamage.clear();
         txtLate.clear();

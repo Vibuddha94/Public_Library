@@ -11,7 +11,7 @@
 
 <AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="850.0" prefWidth="1500.0" styleClass="root" stylesheets="@../cssStyle/Background.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ManageUserController">
    <children>
-      <Label alignment="CENTER" layoutX="14.0" layoutY="14.0" prefHeight="45.0" prefWidth="238.0" style="-fx-background-color: #fbc5316e;" text="Manage Users" textFill="#0c0c69" underline="true">
+      <Label alignment="CENTER" layoutX="14.0" layoutY="14.0" prefHeight="45.0" prefWidth="238.0" style="-fx-background-color: #fbc5316e; -fx-background-radius: 10; -fx-border-color: #2c3e50; -fx-border-radius: 10; -fx-border-width: 2;" text="Manage Users" textFill="#0c0c69" AnchorPane.leftAnchor="50.0">
          <font>
             <Font name="System Bold" size="24.0" />
          </font>
@@ -38,27 +38,27 @@
       <TextField fx:id="txtAddress" layoutX="252.0" layoutY="96.0" prefHeight="25.0" prefWidth="300.0" promptText="Address" AnchorPane.topAnchor="99.0" />
       <TextField fx:id="txtContactNumber" layoutX="252.0" layoutY="138.0" prefHeight="25.0" prefWidth="150.0" promptText="Contact Number" AnchorPane.topAnchor="139.0" />
       <TextField fx:id="txtPassword" layoutX="252.0" layoutY="183.0" prefHeight="25.0" prefWidth="150.0" promptText="Password" AnchorPane.topAnchor="179.0" />
-      <JFXCheckBox fx:id="cbIsAdmin" checkedColor="#f39c12" layoutX="252.0" layoutY="231.0" prefHeight="25.0" prefWidth="150.0" style="-fx-border-radius: 5; -fx-border-color: BLACK;" text="     Is Admin" textFill="#6555a4" AnchorPane.topAnchor="219.0">
+      <JFXCheckBox fx:id="cbIsAdmin" checkedColor="#f39c12" layoutX="252.0" layoutY="231.0" prefHeight="25.0" prefWidth="150.0" style="-fx-border-radius: 5; -fx-border-color: BLACK; -fx-border-width: 2;" text="     Is Admin" textFill="#6555a4" AnchorPane.topAnchor="219.0">
          <font>
             <Font name="Arial Bold" size="16.0" />
          </font>
       </JFXCheckBox>
-      <JFXButton fx:id="btnSave" buttonType="RAISED" layoutX="612.0" layoutY="96.0" onAction="#btnSaveOnAction" prefHeight="25.0" prefWidth="100.0" style="-fx-border-radius: 10; -fx-border-color: #ecf0f1; -fx-background-radius: 10;" text="SAVE" textFill="#218026" AnchorPane.topAnchor="95.0">
+      <JFXButton fx:id="btnSave" buttonType="RAISED" layoutX="612.0" layoutY="96.0" onAction="#btnSaveOnAction" prefHeight="25.0" prefWidth="100.0" style="-fx-border-radius: 10; -fx-border-color: #ecf0f1; -fx-background-radius: 10; -fx-border-width: 2;" text="SAVE" textFill="#218026" AnchorPane.topAnchor="95.0">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
       </JFXButton>
-      <JFXButton fx:id="btnUpdate" buttonType="RAISED" layoutX="612.0" layoutY="135.0" onAction="#btnUpdateOnAction" prefHeight="25.0" prefWidth="100.0" style="-fx-border-radius: 10; -fx-border-color: #ecf0f1; -fx-background-radius: 10;" text="UPDATE" textFill="#1245c6" AnchorPane.topAnchor="135.0">
+      <JFXButton fx:id="btnUpdate" buttonType="RAISED" layoutX="612.0" layoutY="135.0" onAction="#btnUpdateOnAction" prefHeight="25.0" prefWidth="100.0" style="-fx-border-radius: 10; -fx-border-color: #ecf0f1; -fx-background-radius: 10; -fx-border-width: 2;" text="UPDATE" textFill="#1245c6" AnchorPane.topAnchor="135.0">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
       </JFXButton>
-      <JFXButton fx:id="btnDelete" buttonType="RAISED" layoutX="612.0" layoutY="180.0" onAction="#btnDeleteOnAction" prefHeight="25.0" prefWidth="100.0" style="-fx-border-radius: 10; -fx-border-color: #ecf0f1; -fx-background-radius: 10;" text="DELETE" textFill="#da0d0d" AnchorPane.topAnchor="175.0">
+      <JFXButton fx:id="btnDelete" buttonType="RAISED" layoutX="612.0" layoutY="180.0" onAction="#btnDeleteOnAction" prefHeight="25.0" prefWidth="100.0" style="-fx-border-radius: 10; -fx-border-color: #ecf0f1; -fx-background-radius: 10; -fx-border-width: 2;" text="DELETE" textFill="#da0d0d" AnchorPane.topAnchor="175.0">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
       </JFXButton>
-      <JFXButton fx:id="btnHome" buttonType="RAISED" layoutX="1350.0" layoutY="43.0" onAction="#btnHomeOnAction" prefHeight="25.0" prefWidth="100.0" style="-fx-border-radius: 10; -fx-border-color: #ecf0f1; -fx-background-radius: 10;" text="HOME" textFill="#b92c85">
+      <JFXButton fx:id="btnHome" buttonType="RAISED" layoutX="1350.0" layoutY="43.0" onAction="#btnHomeOnAction" prefHeight="25.0" prefWidth="100.0" style="-fx-border-radius: 10; -fx-border-color: #ecf0f1; -fx-background-radius: 10; -fx-border-width: 2;" text="HOME" textFill="#b92c85">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>

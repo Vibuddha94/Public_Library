@@ -99,12 +99,26 @@ public class ManageUserController implements Initializable {
 
     private UserService userService = (UserService) ServiceFactory.getInstance().getService(ServiceType.USER);
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        colUserId.setCellValueFactory(new PropertyValueFactory<>("userId"));
+        colFirstName.setCellValueFactory(new PropertyValueFactory<>("firstName"));
+        colLastName.setCellValueFactory(new PropertyValueFactory<>("lastName"));
+        colDob.setCellValueFactory(new PropertyValueFactory<>("dob"));
+        colAddress.setCellValueFactory(new PropertyValueFactory<>("address"));
+        colContactNumber.setCellValueFactory(new PropertyValueFactory<>("contactNumber"));
+        colPassword.setCellValueFactory(new PropertyValueFactory<>("password"));
+        colIsAdmin.setCellValueFactory(new PropertyValueFactory<>("isAdmin"));
+
+        loadTable();
+    }
+
     // ------------DELETE AN USER----------------
     @FXML
     void btnDeleteOnAction(ActionEvent event) {
         try {
             String userId = txtUserId.getText();
-            if (userId.equals("ADMIN")) {
+            if (userId.equals("ADMIN")) {  //---TO STOP DELETING ADMIN
                 showDialog("System Error", "Can't delete the Admin");
                 clear();
             } else {
@@ -118,6 +132,7 @@ public class ManageUserController implements Initializable {
         }
     }
 
+    // ------------GO BACK TO HOME PAGE----------------
     @FXML
     void btnHomeOnAction(ActionEvent event) throws IOException {
         this.root.getChildren().clear();
@@ -162,19 +177,7 @@ public class ManageUserController implements Initializable {
         setValueFrom(dto);
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        colUserId.setCellValueFactory(new PropertyValueFactory<>("userId"));
-        colFirstName.setCellValueFactory(new PropertyValueFactory<>("firstName"));
-        colLastName.setCellValueFactory(new PropertyValueFactory<>("lastName"));
-        colDob.setCellValueFactory(new PropertyValueFactory<>("dob"));
-        colAddress.setCellValueFactory(new PropertyValueFactory<>("address"));
-        colContactNumber.setCellValueFactory(new PropertyValueFactory<>("contactNumber"));
-        colPassword.setCellValueFactory(new PropertyValueFactory<>("password"));
-        colIsAdmin.setCellValueFactory(new PropertyValueFactory<>("isAdmin"));
-
-        loadTable();
-    }
+    
 
     // ------------IMPORT THE DATA TO THE TABLE FROM DATABASE----------------
     private void loadTable() {
@@ -189,7 +192,7 @@ public class ManageUserController implements Initializable {
                 observableList.add(tm);
             }
 
-            loadUserId(observableList.getLast().getUserId());
+            loadUserId(observableList.getLast().getUserId());  //---GET THE LAST USER ID
             tblUser.setItems(observableList);
 
         } catch (Exception e) {
