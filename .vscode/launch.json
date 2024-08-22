@@ -12,6 +12,13 @@
         },
         {
             "type": "java",
+            "name": "Launch",
+            "request": "launch",
+            "mainClass": "Launch",
+            "projectName": "Public_Liibrary_927e85bb"
+        },
+        {
+            "type": "java",
             "name": "Library",
             "request": "launch",
             "mainClass": "Library",

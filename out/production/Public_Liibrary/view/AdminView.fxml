@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="850.0" prefWidth="1500.0" styleClass="root" stylesheets="@../cssStyle/Background.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AdminViewController">
+   <children>
+      <Label layoutX="1074.0" layoutY="22.0" prefHeight="25.0" prefWidth="60.0" text="Admin" textFill="#29c415" AnchorPane.rightAnchor="400.0" AnchorPane.topAnchor="20.0">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblName" layoutX="1134.0" layoutY="20.0" prefHeight="26.0" prefWidth="250.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="20.0">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
+      <JFXButton fx:id="btnLogout" buttonType="RAISED" layoutX="1385.0" layoutY="20.0" onAction="#btnLogoutOnAcction" prefHeight="25.0" prefWidth="70.0" style="-fx-background-radius: 10; -fx-border-color: #ecf0f1; -fx-border-radius: 10; -fx-border-width: 2;" text="Logout" textFill="#009bff" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="17.0">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </JFXButton>
+      <Label layoutX="444.0" layoutY="252.0" text="Together, We Inspire Learning" textFill="#5094f8" AnchorPane.topAnchor="270.0">
+         <font>
+            <Font name="Cambria Math" size="47.0" />
+         </font>
+      </Label>
+      <JFXComboBox fx:id="comboBox" layoutX="487.0" layoutY="495.0" prefHeight="27.0" prefWidth="350.0" promptText="----------------------------------Select--------------------------------" style="-fx-background-color: #ffffff;" AnchorPane.leftAnchor="487.0" AnchorPane.topAnchor="495.0" />
+      <JFXButton fx:id="btnOk" buttonType="RAISED" layoutX="888.0" layoutY="489.0" onAction="#btnOkOnAction" prefHeight="40.0" prefWidth="125.0" style="-fx-border-color: #48708a; -fx-border-radius: 10; -fx-border-width: 2;" text="OK" textFill="#48708a" AnchorPane.leftAnchor="888.0" AnchorPane.topAnchor="489.0">
+         <font>
+            <Font name="System Bold" size="17.0" />
+         </font>
+      </JFXButton>
+   </children>
+</AnchorPane>

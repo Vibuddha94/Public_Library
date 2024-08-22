@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="850.0" prefWidth="1500.0" styleClass="root" stylesheets="@../cssStyle/Background.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ManageCategoriesController">
+   <children>
+      <Label alignment="CENTER" layoutX="14.0" layoutY="14.0" prefHeight="45.0" prefWidth="238.0" style="-fx-background-color: #fbc5316e; -fx-background-radius: 10; -fx-border-color: #2c3e50; -fx-border-radius: 10; -fx-border-width: 2;" text="Manage Categories" textFill="#0c0c69" AnchorPane.leftAnchor="50.0">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+      <TableView fx:id="tblCategory" focusTraversable="false" layoutX="566.0" layoutY="99.0" onMouseClicked="#tblCategoryOnMouseClicked" prefHeight="724.0" prefWidth="560.0" AnchorPane.bottomAnchor="27.0" AnchorPane.leftAnchor="566.0" AnchorPane.rightAnchor="374.0" AnchorPane.topAnchor="99.0">
+        <columns>
+          <TableColumn fx:id="colCatCode" prefWidth="155.0" text="Category Code" />
+          <TableColumn fx:id="colCatName" prefWidth="333.0" text="Category" />
+        </columns>
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
+      </TableView>
+      <TextField fx:id="txtCatCode" focusTraversable="false" layoutX="52.0" layoutY="206.0" prefHeight="25.0" prefWidth="160.0" promptText="Category Code" AnchorPane.leftAnchor="52.0" AnchorPane.topAnchor="206.0" />
+      <TextField fx:id="txtCategory" focusTraversable="false" layoutX="292.0" layoutY="206.0" prefHeight="25.0" prefWidth="160.0" promptText="Category" AnchorPane.leftAnchor="292.0" AnchorPane.topAnchor="206.0" />
+      <JFXButton fx:id="btnSave" buttonType="RAISED" focusTraversable="false" layoutX="52.0" layoutY="252.0" onAction="#btnSaveOnAction" prefHeight="25.0" prefWidth="100.0" style="-fx-border-radius: 10; -fx-border-color: #ecf0f1; -fx-background-radius: 10; -fx-border-width: 2;" text="SAVE" textFill="#218026" AnchorPane.leftAnchor="52.0" AnchorPane.topAnchor="252.0">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </JFXButton>
+      <JFXButton fx:id="btnUpdate" buttonType="RAISED" focusTraversable="false" layoutX="202.0" layoutY="252.0" onAction="#btnUpdateOnAction" prefHeight="25.0" prefWidth="100.0" style="-fx-border-radius: 10; -fx-border-color: #ecf0f1; -fx-background-radius: 10; -fx-border-width: 2;" text="UPDATE" textFill="#1245c6" AnchorPane.leftAnchor="202.0" AnchorPane.topAnchor="252.0">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </JFXButton>
+      <JFXButton fx:id="btnDelete" buttonType="RAISED" focusTraversable="false" layoutX="352.0" layoutY="252.0" onAction="#btnDeleteOnAction" prefHeight="25.0" prefWidth="100.0" style="-fx-border-radius: 10; -fx-border-color: #ecf0f1; -fx-background-radius: 10; -fx-border-width: 2;" text="DELETE" textFill="#da0d0d" AnchorPane.leftAnchor="352.0" AnchorPane.topAnchor="252.0">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </JFXButton>
+      <JFXButton fx:id="btnHome" buttonType="RAISED" focusTraversable="false" layoutX="1350.0" layoutY="43.0" onAction="#btnHomeOnAction" prefHeight="25.0" prefWidth="100.0" style="-fx-border-radius: 10; -fx-border-color: #ecf0f1; -fx-background-radius: 10; -fx-border-width: 2;" text="HOME" textFill="#b92c85" AnchorPane.rightAnchor="50.0">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </JFXButton>
+   </children>
+</AnchorPane>

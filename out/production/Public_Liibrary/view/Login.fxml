@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="850.0" prefWidth="1500.0" styleClass="root" stylesheets="@../cssStyle/Background.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoginController">
+   <children>
+      <Label layoutX="489.0" layoutY="194.0" text="WELCOME" textFill="#90ff00">
+         <font>
+            <Font name="Times New Roman Bold" size="96.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtUserId" focusTraversable="false" layoutX="601.0" layoutY="400.0" prefHeight="25.0" prefWidth="300.0" promptText="User ID" />
+      <PasswordField fx:id="txtPasword" focusTraversable="false" layoutX="601.0" layoutY="445.0" onMouseClicked="#txtPasswordOnMouseClicked" prefHeight="25.0" prefWidth="300.0" promptText="Password" />
+      <JFXButton fx:id="btnLogin" buttonType="RAISED" focusTraversable="false" layoutX="691.0" layoutY="515.0" onAction="#btnLoginOnAction" prefHeight="40.0" prefWidth="120.0" style="-fx-border-color: #ffffff; -fx-border-radius: 10; -fx-border-width: 3;" text="Login" textFill="#1f652e">
+         <font>
+            <Font name="Times New Roman Bold" size="25.0" />
+         </font>
+      </JFXButton>
+   </children>
+</AnchorPane>
