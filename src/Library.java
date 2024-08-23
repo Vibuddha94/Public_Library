@@ -3,6 +3,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 public class Library extends Application {
@@ -15,7 +16,8 @@ public class Library extends Application {
         URL resource = getClass().getResource("/view/Login.fxml");
         Parent root = FXMLLoader.load(resource);
         primaryStage.setScene(new Scene(root));
-        primaryStage.setTitle("Public Library");
+        primaryStage.setTitle("Library Manager");
+        primaryStage.getIcons().add(new Image("/image/image.png"));
         primaryStage.show();
     }
 

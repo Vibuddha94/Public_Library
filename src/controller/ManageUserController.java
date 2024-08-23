@@ -121,6 +121,7 @@ public class ManageUserController implements Initializable {
             if (userId.equals("ADMIN")) {  //---TO STOP DELETING ADMIN
                 showDialog("System Error", "Can't delete the Admin");
                 clear();
+                loadUserId(tblUser.getItems().getLast().getUserId());
             } else {
                 String response = userService.deleteUser(userId);
                 clear();
@@ -159,12 +160,19 @@ public class ManageUserController implements Initializable {
     @FXML
     void btnUpdateOnAction(ActionEvent event) {
         try {
-            UserDto userDto = new UserDto();
-            setValueTo(userDto);
-            String response = userService.updateUser(userDto);
-            clear();
-            loadTable();
-            showDialog("Message", response);
+            if (txtUserId.getText().equals("ADMIN")) {
+                showDialog("System Error", "Can't update the Admin");
+                clear();
+                loadUserId(tblUser.getItems().getLast().getUserId());
+            } else {
+                UserDto userDto = new UserDto();
+                setValueTo(userDto);
+                String response = userService.updateUser(userDto);
+                clear();
+                loadTable();
+                showDialog("Message", response);
+            }
+            
         } catch (Exception e) {
             showDialog("Error", "Error while updating user...");
         }
